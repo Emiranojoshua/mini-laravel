@@ -1,0 +1,15 @@
+{
+  "name": "emirano/emriano-framework",
+  "authors": [
+    {
+      "name": "Emmanuel Joshua",
+      "email": "emiranojoshua@gmail.com"
+    }
+  ],
+  "require": {}, 
+  "autoload": {
+    "psr-4": {
+        "Core\\" : "Core/"
+    }
+  }
+}
