@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="contact">contact</a>
+
         welcome to the home page 
 </body>
 </html>

@@ -1,6 +1,9 @@
 <?php
 
-function dd(mixed $value)
+use Core\Exception\RouterException\NotFoundException;
+use Core\Response;
+
+function dd(mixed  $value)
 {
     echo '<pre>';
     var_dump($value);
@@ -23,12 +26,30 @@ function pp(array | string | int $value)
     echo '</prev>';
 }
 
-function base_path($path)
+function base_path(string $path)
 {
     return require BASE_PATH . $path;
 }
 
-function view($path)
+function view(string $path, array $params = [])
 {
-    return require BASE_PATH . "/../views/" . $path . '.view.php';
+    (count($params) <= 0) || extract($params);
+
+
+    $viewFile = BASE_PATH . "/../views/" . $path . '.view.php';
+
+    file_exists($viewFile) ||  throw NotFoundException::ThrowException(
+        "View file not found $viewFile",
+        Response::NOT_FOUND
+    );
+
+    // ob_start();
+    require $viewFile;
+    return ;
+}
+
+function renderError(array $params)
+{
+
+    return view('errors/error', $params);
 }

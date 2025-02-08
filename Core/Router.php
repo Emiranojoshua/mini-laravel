@@ -1,14 +1,17 @@
 <?php
-namespace Core;
-use Core\Exception\RouteException;
-use Exception;
 
+namespace Core;
+
+use Core\Exception\RouterException\NotFoundException;
+use Core\Exception\RouterException\RouterRuntimeException;
+use Core\Response;
 
 class Router
 {
-
+    //array holding the routes
     public static array $routes = [];
 
+    //route template 
     public static function add($route, $controller, $method = 'get'): array
     {
         return static::$routes[] = [
@@ -18,38 +21,46 @@ class Router
         ];
     }
 
-
-    public static function get(string $route, $controller): void
+    //handle get request
+    public static function get(string $route, callable | array $controller): void
     {
         self::add($route, $controller);
+
+        // return Router::class;
     }
-    public static function post(string $route, $controller): void
+
+    //handle post request
+    public static function post(string $route, callable | array $controller): void
     {
         self::add($route, $controller, method: 'post');
     }
+    public static function put(string $route, callable | array $controller): void
+    {
+        self::add($route, $controller, method: 'put');
+    }
+    public static function delete(string $route, callable | array $controller): void
+    {
+        self::add($route, $controller, method: 'delete');
+    }
 
+    //handle the routing in the index page
     public static function route($uri, $method)
     {
 
-        // dd('this is called');
-        //get all the routes
         $routes = self::getRoutes();
-        // dd($routes);
         $method = strtolower($method);
-        //check if the uri matches the route and the method
         foreach ($routes as $route) {
-            if($uri == $route['uri'] && strtolower($method) == $route['method']){
-                $path = $route['controller'];
-                view($path);
-                exit();
+            if ($uri == $route['uri'] && $method == $route['method']) {
+                // print_r($route['controller']);
+                return Dispatch::dispatch($route['controller']);
             }
-
         }
-        throw new RouteException('route not found');
-        //if it matches require that file 
-        //if no match is found throw an exception
+        return throw NotFoundException::ThrowException('PAGE NOT FOUND', Response::NOT_FOUND);
     }
 
+
+
+    //getting the  routes
     public static function getRoutes(): array
     {
         return self::$routes;
