@@ -6,7 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="contact">contact</a>
+    <a href="/contact">contact</a>
+    <a href="/home">home</a>
+    <a href="/post">post</a>
 
         welcome to the home page 
 </body>

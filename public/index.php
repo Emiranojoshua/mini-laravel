@@ -10,10 +10,13 @@ $functions = require BASE_PATH . "/../functions.php";
 base_path(path: '/../routes/web.php');
 
 
-$uri = parse_url($_SERVER['REQUEST_URI'])['path'] ?? '';
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+// dd($uri);
 $method = $_SERVER['REQUEST_METHOD'];
 
-
+// dd(Router::get('/', function(){
+//     return 'called from index page';
+// }));
 
 try {
     Router::route($uri, $method);

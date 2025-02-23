@@ -18,7 +18,10 @@ class Dispatch
             return self::dispatchmethod($controller);
         }
         // dd('this was reached');
-        return throw RouterRuntimeException::ThrowException('Invalid Request', Response::BAD_REQUEST);
+        return throw RouterRuntimeException::ThrowException(
+            Response::BAD_REQUEST,
+            "INVALID CONTROLLER PARAMETER SET"
+        );
     }
 
     public static function dispatchMethod($controller)
@@ -26,7 +29,7 @@ class Dispatch
 
         // echo view('home');
         echo call_user_func($controller);
-       exit();
+        exit();
     }
 
     public static function dispatchController($controller)
@@ -34,10 +37,16 @@ class Dispatch
 
         [$controller, $method] = $controller;
         if (!class_exists($controller)) {
-            throw RouterRuntimeException::ThrowException("Controller $controller not found", Response::BAD_REQUEST);
+            throw RouterRuntimeException::ThrowException(
+                Response::BAD_REQUEST,
+                "Controller $controller not found",
+            );
         }
         if (!method_exists($controller, $method)) {
-            throw RouterRuntimeException::ThrowException("Method $method not found in $controller", Response::BAD_REQUEST);
+            throw RouterRuntimeException::ThrowException(
+                Response::BAD_REQUEST,
+                "Method $method not found in $controller"
+            );
         }
 
 

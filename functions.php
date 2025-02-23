@@ -39,8 +39,8 @@ function view(string $path, array $params = [])
     $viewFile = BASE_PATH . "/../views/" . $path . '.view.php';
 
     file_exists($viewFile) ||  throw NotFoundException::ThrowException(
-        "View file not found $viewFile",
-        Response::NOT_FOUND
+        Response::NOT_FOUND,
+        "The requested file <b>$path</> does not exist",
     );
 
     // ob_start();
