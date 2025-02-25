@@ -5,32 +5,13 @@ use HTTP\Controllers\HomeController;
 use HTTP\Controllers\PostController;
 
 
-Router::get('/home', function () {
+$router->get('/home', function () {
     return view('home');
 });
-
-Router::get('/', function () {
+$router->get('/test', function () {
     return view('home');
 });
-
-Router::get(
-    '/test',
-    [PostController::class, 'index']
-);
-
-Router::get(
-    '/contact',
-    [PostController::class, 'create']
-);
-Router::get(
-    '/',
-    [HomeController::class, 'index']
-);
-Router::get(
-    '/post',
-    [PostController::class, 'index']
-);
-Router::post(
-    '/post',
-    [PostController::class, 'index']
-);
+$router->get('/contact', function () {
+    return view('contact');
+});
+$router->get('/post', [PostController::class, 'index']);

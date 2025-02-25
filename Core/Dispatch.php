@@ -2,13 +2,33 @@
 
 namespace Core;
 
+use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
 use HTTP\Controllers\Controller;
 
 class Dispatch
 {
-    public static function dispatch($controller)
+    public static function dispatch(array $request, array $routes)
     {
+
+        [$uri, $method] = $request;
+        $method = strtolower($method);
+        foreach ($routes as $route) {
+            if ($uri == $route->uri && $method == $route->method) {
+                // print_r($route['controller']);
+                // dd('route fond');
+                return static::dispatchRoute($route->controller);
+            }
+        }
+        return throw NotFoundException::ThrowException(
+            Response::NOT_FOUND,
+            "PAGE NOT FOUND"
+        );
+    }
+
+    public static function dispatchRoute($controller)
+    {
+
         if (is_array($controller) && count($controller) === 2) {
             return self::dispatchController($controller);
         }
