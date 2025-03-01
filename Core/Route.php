@@ -2,25 +2,19 @@
 
 namespace Core;
 
-use Core\Middleware;
+use Core\Routing\Router;
 
 class Route
 {
-    public function __construct(
-        public string $uri,
-        public $controller,
-        public string $method = 'get',
-        private Middleware $middleware = Middleware::DEFAULT,
-    ) {}
 
-    public function setMiddleware(Middleware $middleware)
+    private static $instance;
+
+    public static function __callStatic($name, $arguments)
     {
-        $this->middleware = $middleware;
-    }
+        if (!self::$instance) {
+            self::$instance = new Router();
+        }
 
-    public function getMiddleware(){
-        return $this->middleware;
+        return self::$instance->$name(...$arguments);
     }
-
 }
-

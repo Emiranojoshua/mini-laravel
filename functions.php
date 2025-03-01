@@ -26,6 +26,13 @@ function pp(array | string | int $value)
     echo '</prev>';
 }
 
+function logger(mixed $value)
+{
+    echo '<pre>';
+    var_dump($value);
+    echo '</pre>';
+}
+
 function base_path(string $path)
 {
     return require BASE_PATH . $path;
@@ -45,7 +52,7 @@ function view(string $path, array $params = [])
 
     // ob_start();
     require $viewFile;
-    return ;
+    return;
 }
 
 function renderError(array $params)

@@ -1,22 +1,23 @@
 <?php
 
-namespace Core;
+namespace Core\Routing;
 
 use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
-use HTTP\Controllers\Controller;
+use Core\Middleware\MiddlewareHandler;
+use Core\Response;
 
 class Dispatch
 {
     public static function dispatch(array $request, array $routes)
     {
-
         [$uri, $method] = $request;
         $method = strtolower($method);
         foreach ($routes as $route) {
             if ($uri == $route->uri && $method == $route->method) {
                 // print_r($route['controller']);
                 // dd('route fond');
+                (new MiddlewareHandler($route->middleware))->handle();
                 return static::dispatchRoute($route->controller);
             }
         }
@@ -68,7 +69,6 @@ class Dispatch
                 "Method $method not found in $controller"
             );
         }
-
 
         $instance = new $controller();
 

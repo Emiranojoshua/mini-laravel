@@ -11,19 +11,13 @@ class Router extends Request
     {
         $this->request = $this->getRequest();
 
-        // parent::__construct();
     }
     //handle the routing in the index page
     public function route()
     {
-
         return Dispatch::dispatch(
             $this->request,
             $this->getRoutes()
         );
     }
-
-    // public function middleware(){
-    //     echo 'called from router';
-    // }
 }
