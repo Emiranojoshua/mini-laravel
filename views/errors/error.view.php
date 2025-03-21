@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found</title>
+    <title><?= $errorCode ?> - <?= $errorMessage ?></title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
         h1 { font-size: 50px; }
@@ -23,7 +23,7 @@
 </head>
 <body>
     <h1>Error Code: <?= $errorCode ?></h1>
-    <p><b>Error Message: <?= $errorMessage ?></b></p>
+    <h1><b><?= $errorMessage ?></b></h1>
     <a href="/">Go Home</a>
 </body>
 </html>

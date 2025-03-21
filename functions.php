@@ -16,13 +16,13 @@ function pp(array | string | int $value)
     if (is_array($value)) {
         foreach ($value as $value) {
             echo '<prev>';
-            echo ("<b>{$value}</b>" . '</br>');
+            echo ("{$value}" . '</br>');
             echo '</prev>';
         }
         return;
     }
     echo '<prev>';
-    echo ("<b>{$value}</b>" . '</br>');
+    echo ("{$value}" . '</br>');
     echo '</prev>';
 }
 
@@ -43,7 +43,8 @@ function view(string $path, array $params = [])
     (count($params) <= 0) || extract($params);
 
 
-    $viewFile = BASE_PATH . "/../views/" . $path . '.view.php';
+    $viewFile = BASE_PATH . "/../views/" . strtolower($path) . '.view.php';
+    // dd($viewFile);
 
     file_exists($viewFile) ||  throw NotFoundException::ThrowException(
         Response::NOT_FOUND,

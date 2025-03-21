@@ -2,9 +2,13 @@
 
 namespace Core\Routing;
 
+use Core\Auth\Auth;
+use Core\Container\Container;
+use Core\Container\ContainerHandler;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
 use Core\Middleware\MiddlewareHandler;
+use Core\Request\Request;
 use Core\Response;
 
 class Dispatch
@@ -18,6 +22,8 @@ class Dispatch
                 // print_r($route['controller']);
                 // dd('route fond');
                 (new MiddlewareHandler($route->middleware))->handle();
+
+                // Middlewarehandler::handle($route->middleware);
                 return static::dispatchRoute($route->controller);
             }
         }
@@ -27,7 +33,7 @@ class Dispatch
         );
     }
 
-    public static function dispatchRoute($controller)
+    public static function dispatchRoute(array | callable $controller)
     {
 
         if (is_array($controller) && count($controller) === 2) {
@@ -45,7 +51,7 @@ class Dispatch
         );
     }
 
-    public static function dispatchMethod($controller)
+    public static function dispatchMethod(callable $controller)
     {
 
         // echo view('home');
@@ -53,9 +59,8 @@ class Dispatch
         exit();
     }
 
-    public static function dispatchController($controller)
+    public static function dispatchController(array $controller)
     {
-
         [$controller, $method] = $controller;
         if (!class_exists($controller)) {
             throw RouterRuntimeException::ThrowException(
@@ -70,8 +75,11 @@ class Dispatch
             );
         }
 
-        $instance = new $controller();
 
-        return  $instance->$method();
+        $dependencies = Container::resolveMethod($controller, $method);
+        
+        return (new $controller())->$method(...$dependencies);
+
+        // return  $instance->$method();
     }
 }

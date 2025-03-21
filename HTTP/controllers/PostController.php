@@ -2,7 +2,7 @@
 
 namespace HTTP\Controllers;
 
-class PostController extends Controller
+final class PostController extends Controller
 {
 
     public function index() {

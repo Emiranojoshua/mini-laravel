@@ -20,15 +20,19 @@ class MiddlewareHandler
                 break;
 
             case Middleware::AUTH:
-                $user = null;
-                if (!$user) {
-                    return throw AuthException::ThrowException(Response::UNAUTHORIZED, 'your not authorized to view this page');
-                }
-                // break;
+                $this->Auth($this->middleware);
+                break;
 
             default:
                 # code...
                 break;
         }
     }
+
+    private function Auth(Middleware $middleware)
+    {
+        return throw AuthException::ThrowException(Response::UNAUTHORIZED, 'UNAUTHORIZED');
+    }
+
+    private function Guest(Middleware $middleware) {}
 }

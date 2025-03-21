@@ -20,3 +20,6 @@ class App{
 app->router->get();
 but now this extends the class and not do the thing 
 but the class is iunstanciated upon the calling of the app class
+
+implementing authentication 
+##check 
