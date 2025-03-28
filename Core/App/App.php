@@ -22,7 +22,7 @@ class App
             //return http status code
             http_response_code($errorCode);
         
-            // dd([$errorCode, $errorMessage]);
+            
         
             //render error page
             return renderError([

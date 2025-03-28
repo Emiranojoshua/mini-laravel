@@ -18,6 +18,15 @@ class Authentication
         //needes session construction that constructors session data 
     }
 
+    public function create(array $args): void
+    {
+        //check if user exist
+        //perform validation
+        //signup user
+
+
+    }
+
     public static function login(array $args = [])
     {
 

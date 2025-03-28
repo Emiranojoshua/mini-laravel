@@ -1,25 +1,8 @@
 impliment error message stack traceca
 caching 
-
-we have an app class 
-
-class App{
-
-    router variable to be created;
-
-
-    public function __construct(){
-        instanciate the router class to be abailable everywhere 
-
-        lets say we instantiate it to a variable 
-
-    }
-
-}
-
-app->router->get();
-but now this extends the class and not do the thing 
-but the class is iunstanciated upon the calling of the app class
+s
 
 implementing authentication 
 ##check 
+
+named redirection 

@@ -3,12 +3,10 @@
 namespace HTTP\Controllers;
 
 use Core\Auth\Auth;
-use Core\Connection\Connection;
-use Core\Connection\ConnectionHandler;
-use Core\ControllerTrait;
 use Core\Request\Request;
+use Core\Validation\Validator;
 
-final class HomeController 
+final class HomeController
 {
   public function index(string $name = 'SOMETHING')
   {
@@ -17,10 +15,20 @@ final class HomeController
   public function create(Request $request, Auth $auth)
   {
 
-    dd($request->all());
+    // $validator->validate($request->all(), [
+    //   'email' => ['required', 'email', 'min:5'],
+    //   'password' => ['required', 'min:6'],
+    // ]);
+
+    $request->validate([
+      'email' => ['required', 'email', 'min:5'],
+      'password' => ['required', 'min:6'],
+    ]);
+    $auth::create([]);
+    $auth::login();
   }
   public function store() {}
   public function show() {}
   public function update() {}
-  public function destroy() {}
+  public function destroy() {} 
 }

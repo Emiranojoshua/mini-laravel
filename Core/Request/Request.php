@@ -22,6 +22,9 @@
 
 namespace Core\Request;
 
+use Core\Validation\Validator;
+use Exception;
+
 class Request
 {
 
@@ -41,7 +44,6 @@ class Request
     }
 
 
-
     public function except(array $key = [])
     {
         $data = array_diff_key($this->data, array_flip($key));
@@ -49,7 +51,15 @@ class Request
         return $data;
     }
 
-    public function validate(array $args = []) {}
+
+    public function validate(array $rules) {
+       $validator =  new Validator($rules, $this->all());
+
+       if(!$validator->passes()){
+            dd($validator->getErrors());
+       };
+
+    }
 
     public function only(array $keys)
     {
@@ -65,5 +75,11 @@ class Request
         }
 
         return $filtered;
+    }
+
+    public function get(string $value): mixed
+    {   
+       
+        return $this->all()[$value] ?? throw new Exception('invalid parameter');
     }
 }
