@@ -2,6 +2,11 @@
 
 namespace Core\Routing;
 
+use Core\Exception\ExceptionHandler;
+use Core\Exception\RouterException\NotFoundException;
+use Core\Exception\TestException;
+use Core\Response;
+
 class Router extends Request
 {
 

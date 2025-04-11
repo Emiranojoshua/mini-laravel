@@ -1,25 +1,5 @@
 <?php
 
-// namespace   Core\Request;
-
-// use Core\RequestHandler;
-
-// class Request
-// {
-
-//     public static $instance;
-
-//     public static function __callStatic($method, $args)
-//     {
-//         if (self::$instance == null) {
-//             self::$instance = new RequestHandler();
-//         }
-
-//         return self::$instance->$method(...$args);
-//     }
-// }
-
-
 namespace Core\Request;
 
 use Core\Validation\Validator;
@@ -52,13 +32,13 @@ class Request
     }
 
 
-    public function validate(array $rules) {
-       $validator =  new Validator($rules, $this->all());
+    public function validate(array $rules)
+    {
+        $validator =  new Validator($rules, $this->all());
 
-       if(!$validator->passes()){
+        if (!$validator->passes()) {
             dd($validator->getErrors());
-       };
-
+        };
     }
 
     public function only(array $keys)
@@ -78,8 +58,8 @@ class Request
     }
 
     public function get(string $value): mixed
-    {   
-       
+    {
+
         return $this->all()[$value] ?? throw new Exception('invalid parameter');
     }
 }

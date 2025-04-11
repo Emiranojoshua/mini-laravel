@@ -3,6 +3,7 @@
 namespace Core\Exception;
 
 use Core\Response;
+use Exception;
 
 trait ThrowExceptionTrait
 {
@@ -11,10 +12,12 @@ trait ThrowExceptionTrait
     private static  string $errorMessage;
     public static function ThrowException(Response $error, string $errorMessage)
     {
+
+
         $instance = new static;
 
         $instance::$errorCode = $error->value;
-        $instance::$errorName = $error->name;
+        $instance::$errorName = $error->name;  
         $instance::$errorMessage = $errorMessage;
 
         return $instance;
@@ -32,4 +35,18 @@ trait ThrowExceptionTrait
     {
         return static::$errorMessage;
     }
+
+    // public function getLine(): int{
+    //     return 333;
+    // }
 }
+
+
+
+// abstract class ThrowExceptionTrait extends Exception
+// {
+//     public function ThrowException() {
+//         // dd($this);
+//         return $this;
+//     }
+// }

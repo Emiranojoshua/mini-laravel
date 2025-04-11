@@ -1,5 +1,7 @@
 <?php
 
+use Core\Exception\ExceptionHandler;
+use Core\Exception\Exceptions;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Response;
 
@@ -58,6 +60,19 @@ function view(string $path, array $params = [])
 
 function renderError(array $params)
 {
-
     return view('errors/error', $params);
 }
+
+
+function Exception(
+    Exceptions | array $exception,
+    Response $errorCode = Response::DEFAULT,
+    string $error = ''
+) {
+    if (is_array($exception)) {
+        [$exception, $errorCode, $errormessage] = $exception;
+        return throw $exception::ThrowException($errorCode, $errormessage);
+    }
+
+    return throw $exception->value::ThrowException($errorCode, $error);
+};

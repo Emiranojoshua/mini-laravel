@@ -24,6 +24,8 @@
 <body>
     <h1>Error Code: <?= $errorCode ?></h1>
     <h1><b><?= $errorMessage ?></b></h1>
+    <h2><b>Stack Trace File: <?= $errorFile ?></b></h2>
+    <h2><b>Stack Trace Line: <?= $errorLine ?></b></h2>
     <a href="/">Go Home</a>
 </body>
 </html>

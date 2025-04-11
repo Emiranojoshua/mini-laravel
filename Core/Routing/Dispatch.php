@@ -5,6 +5,7 @@ namespace Core\Routing;
 use Core\Auth\Auth;
 use Core\Container\Container;
 use Core\Container\ContainerHandler;
+use Core\Exception\Exceptions;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
 use Core\Middleware\MiddlewareHandler;
@@ -27,10 +28,13 @@ class Dispatch
                 return static::dispatchRoute($route->controller);
             }
         }
-        return throw NotFoundException::ThrowException(
-            Response::NOT_FOUND,
-            "PAGE NOT FOUND"
-        );
+        // return throw NotFoundException::ThrowException(
+        //     Response::NOT_FOUND,
+        //     "PAGE NOT FOUND"
+        // );
+
+        // dd(Exception(Exceptions::NOTFOUNDEXCEPTION->throw()));
+        return Exception(Exceptions::NOTFOUNDEXCEPTION->throw());
     }
 
     public static function dispatchRoute(array | callable $controller)
@@ -77,7 +81,7 @@ class Dispatch
 
 
         $dependencies = Container::resolveMethod($controller, $method);
-        
+
         return (new $controller())->$method(...$dependencies);
 
         // return  $instance->$method();

@@ -14,17 +14,12 @@ final class HomeController
   }
   public function create(Request $request, Auth $auth)
   {
-
-    // $validator->validate($request->all(), [
-    //   'email' => ['required', 'email', 'min:5'],
-    //   'password' => ['required', 'min:6'],
-    // ]);
-
+    
     $request->validate([
       'email' => ['required', 'email', 'min:5'],
       'password' => ['required', 'min:6'],
     ]);
-    $auth::create([]);
+    $auth::create();
     $auth::login();
   }
   public function store() {}

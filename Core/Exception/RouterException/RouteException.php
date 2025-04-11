@@ -5,4 +5,4 @@ use Exception;
 
 class RouteException extends Exception{
     use ThrowExceptionTrait;
-}
+}         
