@@ -101,7 +101,7 @@ class ContainerHandler
                     $dependencies[] = $parameter->getDefaultValue();
                     return $dependencies;
                 } else {
-                    return throw new Exception("remove or pass in a default value to the method parameter", );
+                    return throw new Exception("remove or pass in a default value to the method parameter",);
                 }
             }
             $class = $parameter->getType()->getName();

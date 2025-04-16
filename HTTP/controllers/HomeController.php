@@ -3,6 +3,7 @@
 namespace HTTP\Controllers;
 
 use Core\Auth\Auth;
+use Core\Models\UserModel;
 use Core\Request\Request;
 use Core\Validation\Validator;
 
@@ -12,7 +13,7 @@ final class HomeController
   {
     return view("home");
   }
-  public function create(Request $request, Auth $auth)
+  public function create(Request $request, Auth $auth, UserModel $userModel)
   {
 
     $attr = $request->validate([
@@ -24,14 +25,13 @@ final class HomeController
       return view('/login');
     }
 
-    $authUser = $auth::createUser($request->all());
+    $authUser = $userModel->create($attr);
 
-    dd($request->all());
 
 
     // dd($_SESSION);
     // $auth::create();
-    // $auth::login();
+    $auth->login($authUser);
   }
   public function store() {}
   public function show() {}

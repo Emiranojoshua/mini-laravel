@@ -81,7 +81,6 @@ class Dispatch
 
 
         $dependencies = Container::resolveMethod($controller, $method);
-
         return (new $controller())->$method(...$dependencies);
 
         // return  $instance->$method();

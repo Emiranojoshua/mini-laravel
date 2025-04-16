@@ -44,7 +44,7 @@ class Request
         };
 
         //return valdation value
-        return true;
+        return $this->all();
     }
 
     public function only(array $keys)

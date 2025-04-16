@@ -1,7 +1,8 @@
-<?php 
+<?php
 
 namespace Core\Container;
 
+use Core\Connection\Connection;
 use Exception;
 
 class Container
@@ -18,16 +19,20 @@ class Container
             throw new Exception("resolver required 1 argument " . count($args) . " passed");
         }
 
-        [$class, $dependencies] = $args;
+        
 
-
-        return self::$instance->$method($class, $dependencies);
-    }
-
-    public static function loop(array $args)
-    {
-        foreach ($args as $arg) {
-            return $arg;
+        if (count($args) > 1) {
+            # code...
+            [$class, $classMethod] = $args;
+            return self::$instance->$method($class, $classMethod);
+        } else {
+            [$class] = $args;
+            return self::$instance->$method($class);
         }
+
+        //usage 
+        //$method -> method call from container class
+        // $args -> parameters for the methods in the container class
+
     }
 }
