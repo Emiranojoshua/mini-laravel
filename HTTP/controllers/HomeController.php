@@ -14,16 +14,27 @@ final class HomeController
   }
   public function create(Request $request, Auth $auth)
   {
-    
-    $request->validate([
+
+    $attr = $request->validate([
       'email' => ['required', 'email', 'min:5'],
       'password' => ['required', 'min:6'],
     ]);
-    $auth::create();
-    $auth::login();
+
+    if(!$attr){
+      return view('/login');
+    }
+
+    $authUser = $auth::createUser($request->all());
+
+    dd($request->all());
+
+
+    // dd($_SESSION);
+    // $auth::create();
+    // $auth::login();
   }
   public function store() {}
   public function show() {}
   public function update() {}
-  public function destroy() {} 
+  public function destroy() {}
 }

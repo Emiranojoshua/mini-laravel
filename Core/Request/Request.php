@@ -27,18 +27,24 @@ class Request
     public function except(array $key = [])
     {
         $data = array_diff_key($this->data, array_flip($key));
-
         return $data;
     }
 
 
-    public function validate(array $rules)
+    public function validate(array $rules): mixed
     {
         $validator =  new Validator($rules, $this->all());
 
         if (!$validator->passes()) {
-            dd($validator->getErrors());
+            session_flash($validator->getErrors());
+            session_old($this->all());
+            //coming back for this return value
+            //redirection 
+            return false;
         };
+
+        //return valdation value
+        return true;
     }
 
     public function only(array $keys)

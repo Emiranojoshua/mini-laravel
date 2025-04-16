@@ -16,37 +16,37 @@ enum Exceptions: string
     case DATABASEEXCEPTION = DatabaseException::class;
     case AUTHEXCEPTION = AuthException::class;
 
-    public function throw(): array
+    public function throw(string $message = ''): array
     {
         return match ($this) {
-            self::NOTFOUNDEXCEPTION => self::notFoundException(),
+            self::NOTFOUNDEXCEPTION => self::notFoundException($message),
 
             self::ROUTERRUNTIMEEXCEPTION => [
                 RouterRuntimeException::class,
                 Response::SERVER_ERROR,
-                "PAGE NOT FOUN"
+                empty($message) ? "RUNTIME EXCEPTION CAUGHT" : $message,
             ],
 
             self::DATABASEEXCEPTION => [
                 DatabaseException::class,
                 Response::SERVER_ERROR,
-                "PAGE NOT FOUN"
+                empty($message) ? "SERVER ERROR" : $message,
             ],
 
             self::AUTHEXCEPTION => [
                 AuthException::class,
                 Response::UNAUTHORIZED,
-                "PAGE NOT FOUN"
+                empty($message) ? "UNAHTHORIZED ACCESS" : $message,
             ],
         };
     }
 
-    private function notFoundException(): array
+    private function notFoundException($message): array
     {
         return [
             NotFoundException::class,
             Response::NOT_FOUND,
-            "PAGE NOT FOUND",
+            empty($message) ? "PAGE NOT FOUND" : $message,
         ];
     }
 }

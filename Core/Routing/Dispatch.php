@@ -34,7 +34,7 @@ class Dispatch
         // );
 
         // dd(Exception(Exceptions::NOTFOUNDEXCEPTION->throw()));
-        return Exception(Exceptions::NOTFOUNDEXCEPTION->throw());
+        return exception(Exceptions::NOTFOUNDEXCEPTION->throw());
     }
 
     public static function dispatchRoute(array | callable $controller)

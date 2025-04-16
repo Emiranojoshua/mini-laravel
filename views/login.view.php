@@ -12,9 +12,11 @@
 
     <form action="" method="post">
         <label for="email">email</label>
-        <input type="text" name="email" id="email">
+        <input type="text" name="email" id="email" value="<?= old('email') ?>" placeholder="email address...">
+        <?= errors('email')?>
         <label for="password">password</label>
-        <input type="text" name="password" id="password">
+        <input type="text" name="password" id="password" value="<?= old('password') ?>" placeholder="password...">
+        <?= errors('password')?>
         <input type="submit" value="submit">
     </form>
 

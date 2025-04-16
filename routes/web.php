@@ -28,7 +28,7 @@ Route::get('/post', function () {
 
 Route::post('/post', function () {
     return view('posts');
-})->middleware(Middleware::GUEST);
+})->middleware(Middleware::AUTH);
 
 Route::get('/login', function () {
     return view('login');

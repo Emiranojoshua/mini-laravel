@@ -4,6 +4,9 @@ use Core\Exception\ExceptionHandler;
 use Core\Exception\Exceptions;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Response;
+use Core\Routing\Request;
+use Core\Routing\Router;
+use Core\Session\Session;
 
 function dd(mixed  $value)
 {
@@ -64,7 +67,7 @@ function renderError(array $params)
 }
 
 
-function Exception(
+function exception(
     Exceptions | array $exception,
     Response $errorCode = Response::DEFAULT,
     string $error = ''
@@ -76,3 +79,41 @@ function Exception(
 
     return throw $exception->value::ThrowException($errorCode, $error);
 };
+
+function session_flash(array $data)
+{
+    Session::flash($data);
+    return;
+}
+
+function session_old(array $value): void
+{
+    Session::session_old($value);
+}
+
+
+function errors($key)
+{
+    return getSession($key) ?? '';
+}
+
+function old($key, $default = '')
+{
+    return getSession('_old')[$key] ?? $default;
+}
+
+function getSession($key)
+{
+    return Session::get($key);
+}
+
+function session_unflash()
+{
+    Session::unflash();
+    return;
+}
+
+function flashAll()
+{
+    return Session::flashAll();
+}

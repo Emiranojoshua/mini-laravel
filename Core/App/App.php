@@ -5,6 +5,7 @@ namespace Core\App;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Response;
 use Core\Route;
+use Core\Session\Session;
 use Exception;
 
 class App
@@ -12,15 +13,15 @@ class App
     public static function run()
     {
         try {
-            static::startSession();
+            Session::startSession();
             Route::route();
-            // throw new Exception('adfadfa`');
+            session_unflash();
         } catch (Exception $th) {
             $errorCode = method_exists($th, 'getErrorCode') ? get_class($th)::getErrorCode()  : 500;
             $errorMessage = method_exists($th, 'getErrorMessage') ? get_class($th)::getErrorMessage()  : "An error occured/internal server error";
             $errorFile = $th->getTrace()[0]['file'];
             $errorline = $th->getTrace()[0]['line'];
-            if(strpos($errorFile, 'functions.php')){
+            if (strpos($errorFile, 'functions.php')) {
                 $errorFile = $th->getTrace()[1]['file'];
                 $errorline = $th->getTrace()[1]['line'];
             }
@@ -35,11 +36,5 @@ class App
                 'errorLine' => $errorline,
             ]);
         }
-    }
-
-    public static function startSession()
-    {
-        // return throw new Exception('eror caut from start esssion');
-        session_start();
     }
 }
