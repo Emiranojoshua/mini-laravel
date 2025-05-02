@@ -9,5 +9,6 @@ enum Response: int
     case BAD_REQUEST = 400;
     case UNAUTHORIZED = 401;
     case METHOD_NOT_ALLOWED = 403;
+    case REDIRECT = 202;
     case DEFAULT = 0;
 }

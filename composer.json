@@ -6,11 +6,12 @@
       "email": "emiranojoshua@gmail.com"
     }
   ],
-  "require": {}, 
+  "require": {},
   "autoload": {
     "psr-4": {
-        "Core\\" : "Core/",
-        "HTTP\\" : "HTTP/"
+      "Core\\": "Core/",
+      "HTTP\\": "HTTP/",
+      "Config\\": "Config/"
     }
   }
 }

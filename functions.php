@@ -1,5 +1,6 @@
 <?php
 
+use Config\Config;
 use Core\Exception\ExceptionHandler;
 use Core\Exception\Exceptions;
 use Core\Exception\RouterException\NotFoundException;
@@ -43,7 +44,7 @@ function base_path(string $path)
     return require BASE_PATH . $path;
 }
 
-function view(string $path, array $params = [])
+function view(string $path, array $params = [], Response $response_code = Response::OK)
 {
     (count($params) <= 0) || extract($params);
 
@@ -57,13 +58,16 @@ function view(string $path, array $params = [])
     );
 
     // ob_start();
+    // http_response_code($response->value);
+    request_status_code($response_code);
     require $viewFile;
     return;
 }
 
-function renderError(array $params)
+function renderError(array $params, Response $response_code = Response::NOT_FOUND)
 {
-    return view('errors/error', $params);
+    // dd($params);
+    return view('errors/error', $params, $response_code);
 }
 
 
@@ -116,4 +120,20 @@ function session_unflash()
 function flashAll()
 {
     return Session::flashAll();
+}
+
+function env(string $key)
+{
+
+    return Config::database()['database']['mysql'][$key] ?? exception(
+        Exceptions::NOTFOUNDEXCEPTION->throw(
+            "Config key:$key not found"
+        )
+    );
+}
+
+function request_status_code(Response $response_code)
+{
+
+    http_response_code($response_code->value);
 }

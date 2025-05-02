@@ -1,7 +1,7 @@
-<?php 
+<?php
 
 namespace Core\Models;
 
-class UserModel extends Model{
+use Core\Models\Resource\Model;
 
-}
+class UserModel extends Model {}

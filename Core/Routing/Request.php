@@ -3,6 +3,8 @@
 namespace Core\Routing;
 
 use Core\Middleware;
+//duplicate function call change
+use Core\Request\Request as RequestRequest;
 
 abstract class Request
 {
@@ -43,17 +45,17 @@ abstract class Request
 
     public  function getRequest(): array
     {
-        $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-        $method = $_SERVER['REQUEST_METHOD'];
+        return RequestRequest::getRequest();
+        // $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+        // $method = $_SERVER['REQUEST_METHOD'];
 
-        return  [$uri, $method];
+        // return  [$uri, $method];
 
         // return $this;
     }
 
     public function middleware(Middleware $middleware)
     {
-
         $this->routes[array_key_last($this->routes)]->middleware = $middleware;
         return $this;
     }

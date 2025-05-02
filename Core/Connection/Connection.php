@@ -2,33 +2,41 @@
 
 namespace Core\Connection;
 
-use Core\Exception\DatabaseException\DatabaseException;
 use Core\Exception\Exceptions;
-use Core\Response;
 use PDO;
-use PDOException;
 
 class Connection
 {
 
-    private  $connection;
+    public  $connection;
 
     private $statement;
 
+    private string $username;
+    private string $password;
+    private array $options;
+    private string $dsn;
 
-    public function __construct(string $username = 'root', string $password = '')
+    public function __construct()
     {
 
-        $host = 'localhost';
-        $database = 'emirano';
+        $this->username = env('username');
+        $this->password = env('password');
+        $this->dsn = "mysql:host=" . env('host') . ";dbname=" . env('database');
+        $this->options = [];
 
-        $dsn = "mysql:host=$host;dbname=$database";
 
+        // dd($this->options);
 
         try {
-            $this->connection = new PDO($dsn, $username, $password, [
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            ]);
+            $this->connection = new PDO(
+                $this->dsn,
+                $this->username,
+                $this->password,
+                [
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                ],
+            );
         } catch (\Throwable $e) {
             // dd('this was called from moel exte');
             exception(Exceptions::DATABASEEXCEPTION->throw($e->getMessage()));

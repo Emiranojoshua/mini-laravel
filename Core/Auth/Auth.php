@@ -5,7 +5,7 @@ namespace Core\Auth;
 use Core\Connection\Connection;
 use Core\Exception\AuthException\AuthException;
 use Core\Exception\Exceptions;
-use Core\Models\Model;
+use Core\Models\Resource\Model;
 use Core\Request\Request;
 
 class Auth
@@ -45,10 +45,11 @@ class Auth
     public function login(Model $model)
     {
 
-        dd($model->attributes);
         //user should be a class of its own 
 
-        (new Request())->only(['email', 'password', 'sometinger']);
+        // dd($model->attributes);
+
+        // dd((new Request())->only(['email']));
 
         if (empty($args)) {
             $query =  "SELECT * FROM USERS where email = :email AND  password = :password";

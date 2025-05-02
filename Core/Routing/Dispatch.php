@@ -16,7 +16,11 @@ class Dispatch
 {
     public static function dispatch(array $request, array $routes)
     {
-        [$uri, $method] = $request;
+
+        // [$uri, $method] = $request;
+        $uri = $request['path'];
+        $method = $request['method'];
+
         $method = strtolower($method);
         foreach ($routes as $route) {
             if ($uri == $route->uri && $method == $route->method) {

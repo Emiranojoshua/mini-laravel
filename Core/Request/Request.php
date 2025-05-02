@@ -2,6 +2,7 @@
 
 namespace Core\Request;
 
+use Core\Response;
 use Core\Validation\Validator;
 use Exception;
 
@@ -31,7 +32,7 @@ class Request
     }
 
 
-    public function validate(array $rules): mixed
+    public function validate(array $rules)
     {
         $validator =  new Validator($rules, $this->all());
 
@@ -40,11 +41,14 @@ class Request
             session_old($this->all());
             //coming back for this return value
             //redirection 
-            return false;
+           
+            return view(Request::getRequest()['path'], [], Response::REDIRECT);
+            // exit();
         };
 
         //return valdation value
-        return $this->all();
+        // return $this->all();
+        return json_encode($this->all());
     }
 
     public function only(array $keys)
@@ -67,5 +71,18 @@ class Request
     {
 
         return $this->all()[$value] ?? throw new Exception('invalid parameter');
+    }
+
+    public static function getRequest(): array
+    {
+        $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        return [
+            'path' => $uri,
+            'method' => $method
+        ];
+
+        // return $this;
     }
 }

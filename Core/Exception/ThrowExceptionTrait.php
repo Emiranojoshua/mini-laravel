@@ -8,7 +8,7 @@ use Exception;
 trait ThrowExceptionTrait
 {
     private static  string $errorName;
-    private static  int $errorCode;
+    private static  Response $errorCode;
     private static  string $errorMessage;
     public static function ThrowException(Response $error, string $errorMessage)
     {
@@ -16,7 +16,7 @@ trait ThrowExceptionTrait
 
         $instance = new static;
 
-        $instance::$errorCode = $error->value;
+        $instance::$errorCode = $error;
         $instance::$errorName = $error->name;  
         $instance::$errorMessage = $errorMessage;
 

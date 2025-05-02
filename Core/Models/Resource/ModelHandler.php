@@ -1,11 +1,11 @@
 <?php
 
-namespace Core\Models;
+namespace Core\Models\Resource;
 
 use Core\Connection\Connection as Database;
 use Core\Container\Container;
 
-abstract class Model
+trait ModelHandler
 {
 
     public $attributes = [];
@@ -14,12 +14,18 @@ abstract class Model
 
     public function __construct()
     {
-        $this->database = Container::resolve(Database::class);
+        // $this->database = Container::resolve(Database::class);
     }
 
     public function create($attributes)
     {
-        $this->attributes = $attributes;
+        
+       $this->attributes = $attributes;
+
+       //insertt into database 'model'
+
+    //    dd($this);
+        
 
         // dd($attributes);
 
