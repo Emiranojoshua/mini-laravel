@@ -64,7 +64,7 @@ class Dispatch
 
         // echo view('home');
         echo call_user_func($controller);
-        exit();
+        return;
     }
 
     public static function dispatchController(array $controller)

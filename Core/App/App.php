@@ -2,8 +2,6 @@
 
 namespace Core\App;
 
-use Core\Connection\Connection;
-use Core\Container\ContainerHandler;
 use Core\Response;
 use Core\Route;
 use Core\Session\Session;
@@ -11,12 +9,30 @@ use Exception;
 
 class App
 {
-    public static function run()
+
+    private static $instance = null;
+
+    private function __construct() {}
+
+    // private function __clone(){}
+
+    public static function getInstance()
+    {
+
+        if (self::$instance == null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    public function run()
     {
         try {
             Session::startSession();
+            // 
+
             Route::route();
-            session_unflash();
         } catch (Exception $th) {
             $errorCode = method_exists($th, 'getErrorCode') ? get_class($th)::getErrorCode()  : Response::SERVER_ERROR;
             $errorMessage = method_exists($th, 'getErrorMessage') ? get_class($th)::getErrorMessage()  : "An error occured/internal server error";
@@ -36,9 +52,15 @@ class App
                     'errorMessage' => $errorMessage,
                     'errorFile' => $errorFile,
                     'errorLine' => $errorline,
-                ], 
+                ],
                 $errorCode,
             );
         }
+    }
+
+    public function __destruct()
+    {
+        // var_dump($_SESSION);
+        session_unflash();
     }
 }

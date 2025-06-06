@@ -22,9 +22,12 @@ class Session
         // ];
     }
 
-    public static function session_old(array $value): void
+    public static function session_old(array $data): void
     {
-        self::put('_old', $value);
+        foreach ($data as $key => $value) {
+            $_SESSION['_old'][$key] = $value;
+        }
+        return;
     }
 
     public static function flash(array $data): void
@@ -44,6 +47,7 @@ class Session
         $_SESSION['_flash'] = [];
         $_SESSION['_old'] = [];
         unset($_SESSION['_flash'], $_SESSION['_old']);
+        // $_SESSION = [];
         return;
     }
 

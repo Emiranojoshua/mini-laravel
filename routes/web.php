@@ -10,10 +10,9 @@ Route::get('/', function () {
     return view('home');
 })->middleware(Middleware::GUEST);
 
-Route::get(
-    '/home',
-    [HomeController::class, 'index']
-)->middleware(Middleware::GUEST);
+Route::get('/home', function () {
+    return view('/home');
+})->middleware(Middleware::GUEST);
 
 Route::get(
     '/contact',
@@ -30,9 +29,10 @@ Route::post('/post', function () {
     return view('posts');
 })->middleware(Middleware::AUTH);
 
-Route::get('/login', function () {
-    return view('login');
-})->middleware(Middleware::GUEST);
+Route::get(
+    '/login',
+    [HomeController::class, 'index']
+)->middleware(Middleware::GUEST);
 
 Route::post(
     '/login',

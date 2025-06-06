@@ -2,7 +2,6 @@
 
 namespace Core\Request;
 
-use Core\Response;
 use Core\Validation\Validator;
 use Exception;
 
@@ -32,23 +31,22 @@ class Request
     }
 
 
-    public function validate(array $rules)
+    public function validate(array $rules): array|string
     {
         $validator =  new Validator($rules, $this->all());
 
         if (!$validator->passes()) {
             session_flash($validator->getErrors());
             session_old($this->all());
-            //coming back for this return value
-            //redirection 
-           
-            return view(Request::getRequest()['path'], [], Response::REDIRECT);
-            // exit();
+
+            redirect()->back()->send();
+
+            // $request = Request::getRequest();
+
+            // back();
         };
 
-        //return valdation value
-        // return $this->all();
-        return json_encode($this->all());
+        return $this->all();
     }
 
     public function only(array $keys)
@@ -84,5 +82,10 @@ class Request
         ];
 
         // return $this;
+    }
+
+    public function path(): string
+    {
+        return $this::getRequest()['path'] ?? '/';
     }
 }

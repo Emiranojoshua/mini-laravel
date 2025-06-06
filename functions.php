@@ -4,10 +4,12 @@ use Config\Config;
 use Core\Exception\ExceptionHandler;
 use Core\Exception\Exceptions;
 use Core\Exception\RouterException\NotFoundException;
+use Core\Request\Request as RequestRequest;
 use Core\Response;
 use Core\Routing\Request;
 use Core\Routing\Router;
 use Core\Session\Session;
+use HTTP\RedirectResponse;
 
 function dd(mixed  $value)
 {
@@ -87,7 +89,8 @@ function exception(
 function session_flash(array $data)
 {
     Session::flash($data);
-    return;
+    //JUST INCASE RETURN CAUSES HARM TO CODEBASE
+    // return;
 }
 
 function session_old(array $value): void
@@ -134,6 +137,19 @@ function env(string $key)
 
 function request_status_code(Response $response_code)
 {
-
     http_response_code($response_code->value);
+    return;
+}
+
+function redirect(string $url = '/', Response $response_code = Response::REDIRECT): RedirectResponse
+{
+    return RedirectResponse::make($url, $response_code);
+}
+
+function back(): RedirectResponse
+{
+    $request = RequestRequest::getRequest();
+    dd($request);
+    $referer = $_SERVER['HTTP_REFERER'] ?? '/';
+    return redirect($referer);
 }
