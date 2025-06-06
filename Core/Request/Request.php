@@ -2,6 +2,7 @@
 
 namespace Core\Request;
 
+use Core\Response;
 use Core\Validation\Validator;
 use Exception;
 
@@ -39,7 +40,7 @@ class Request
             session_flash($validator->getErrors());
             session_old($this->all());
 
-            redirect()->back()->send();
+            redirect()->back()->setStatus(Response::REDIRECT)->send();
 
             // $request = Request::getRequest();
 

@@ -44,10 +44,10 @@ class RedirectResponse
 
     public function to(string $url): void
     {
-        request_status_code($this->statusCode);
-        view($url);
+        // request_status_code($this->statusCode);
+        view(path: $url, response_code:$this->statusCode);
         return;
-        // 
+        //
         // header("Location: $url");
         // exit;
     }
