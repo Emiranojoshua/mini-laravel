@@ -2,6 +2,8 @@
 
 namespace Core\Validation;
 
+use Core\Request\Request;
+use Core\Response;
 
 class Validator
 {
@@ -11,10 +13,29 @@ class Validator
         protected array $rules,
         protected array $data
     ) {
-        $this->validate();
+        $this->validator();
     }
 
-    public function validate()
+    public function validate(array $rules, array $data): array
+    {
+        $data = (new Request())->all();
+        // $validator =  new Validator($rules, (new Request())->all());
+
+        if (!$this->passes()) {
+            session_flash($this->getErrors());
+            session_old($data);
+
+            redirect()->back()->setStatus(Response::REDIRECT)->send();
+            exit;
+            // $request = Request::getRequest();
+
+            // back();
+        };
+
+        return $data;
+    }
+
+    public function validator()
     {
         foreach ($this->rules as $field => $ruleArray) {
             $value = $this->data[$field] ?? null;

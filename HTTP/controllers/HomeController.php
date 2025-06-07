@@ -3,9 +3,9 @@
 namespace HTTP\Controllers;
 
 use Core\Auth\Auth;
-use Core\Models\UserModel;
+use Core\Connection\Connection;
+use Core\Models\User;
 use Core\Request\Request;
-use Core\Routing\Router;
 use Core\Validation\Validator;
 
 final class HomeController
@@ -14,7 +14,7 @@ final class HomeController
   {    
     return view("login");
   }
-  public function create(Request $request, Auth $auth, UserModel $userModel)
+  public function create(Request $request, Auth $auth, User $userModel)
   {
     
     $attr = $request->validate([
@@ -22,7 +22,6 @@ final class HomeController
       'password' => ['required', 'min:6'],
     ]);
 
-    
     $authUser = $userModel->create($attr);
 
 

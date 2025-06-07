@@ -20,7 +20,7 @@ trait ModelHandler
     public function create($attributes)
     {
         
-       $this->attributes = $attributes;
+      dd($attributes);
 
        //insertt into database 'model'
 

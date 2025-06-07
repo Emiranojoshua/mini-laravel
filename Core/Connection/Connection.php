@@ -3,6 +3,7 @@
 namespace Core\Connection;
 
 use Core\Exception\Exceptions;
+use Exception;
 use PDO;
 
 class Connection
@@ -16,6 +17,8 @@ class Connection
     private string $password;
     private array $options;
     private string $dsn;
+
+    private static $instance = null;
 
     public function __construct()
     {
@@ -38,8 +41,7 @@ class Connection
                 ],
             );
         } catch (\Throwable $e) {
-            // dd('this was called from moel exte');
-            exception(Exceptions::DATABASEEXCEPTION->throw($e->getMessage()));
+            throw new Exception('Database connection failed: ' . $e->getMessage());
         }
     }
 
@@ -53,5 +55,14 @@ class Connection
     public function get()
     {
         return $this->statement->fetchAll();
+    }
+
+    public static function getConnection()
+    {
+        if (self::$instance == null) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
     }
 }

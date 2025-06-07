@@ -12,7 +12,10 @@ class App
 
     private static $instance = null;
 
-    private function __construct() {}
+    private function __construct()
+    {
+        Session::startSession();
+    }
 
     // private function __clone(){}
 
@@ -29,9 +32,6 @@ class App
     public function run()
     {
         try {
-            Session::startSession();
-            // 
-
             Route::route();
         } catch (Exception $th) {
             $errorCode = method_exists($th, 'getErrorCode') ? get_class($th)::getErrorCode()  : Response::SERVER_ERROR;

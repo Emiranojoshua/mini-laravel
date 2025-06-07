@@ -32,7 +32,7 @@ class Request
     }
 
 
-    public function validate(array $rules): array|string
+    public function validate(array $rules): array
     {
         $validator =  new Validator($rules, $this->all());
 
@@ -41,7 +41,7 @@ class Request
             session_old($this->all());
 
             redirect()->back()->setStatus(Response::REDIRECT)->send();
-
+            exit;
             // $request = Request::getRequest();
 
             // back();

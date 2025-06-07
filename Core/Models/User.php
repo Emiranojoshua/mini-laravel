@@ -4,4 +4,5 @@ namespace Core\Models;
 
 use Core\Models\Resource\Model;
 
-class UserModel extends Model {}
+class User extends Model {}
+
