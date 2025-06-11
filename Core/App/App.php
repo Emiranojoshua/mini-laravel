@@ -14,8 +14,11 @@ class App
 
     private function __construct()
     {
-        $notfound = new NotFoundException();
-        dd($notfound->getErrorCode());
+        try {
+            throw NotFoundException::throwException();
+        } catch (\Throwable $e) {
+            dd($e->getLine());
+        }
     }
 
     // private function __clone(){}

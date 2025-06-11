@@ -15,7 +15,7 @@ abstract class BaseException extends Exception implements ExceptionInterface
     private int $errorCode;
     private string $errorMessage;
 
-    public function __construct(?Response $errorCode = null, ?string $message = null, int $code = 0, ?Throwable $previous = null)
+    private function __construct(?Response $errorCode = null, ?string $message = null, int $code = 0, ?Throwable $previous = null)
     {
 
         $errorResponse = $this->setError();
@@ -25,6 +25,7 @@ abstract class BaseException extends Exception implements ExceptionInterface
 
         // Call parent constructor with the message
         parent::__construct($this->errorMessage, $code, $previous);
+        // return;
     }
 
 
@@ -48,11 +49,11 @@ abstract class BaseException extends Exception implements ExceptionInterface
     }
 
     public static function throwException(
-        string $errorMessage,
-        Response $errorCode,
+        ?string $errorMessage = null,
+        ?Response $errorCode = null,
         int $code = 0,
         ?Throwable $previous = null
-    ): static {
+    ) {
         return new static(
             $errorCode,
             $errorMessage,
