@@ -2,9 +2,9 @@
 
 namespace Core\App;
 
+use Core\Exception\RouterException\NotFoundException;
 use Core\Response;
 use Core\Route;
-use Core\Session\Session;
 use Exception;
 
 class App
@@ -14,10 +14,13 @@ class App
 
     private function __construct()
     {
-        Session::startSession();
+        $notfound = new NotFoundException();
+        dd($notfound->getErrorCode());
     }
 
     // private function __clone(){}
+
+
 
     public static function getInstance()
     {
@@ -34,7 +37,7 @@ class App
         try {
             Route::route();
         } catch (Exception $th) {
-            $errorCode = method_exists($th, 'getErrorCode') ? get_class($th)::getErrorCode()  : Response::SERVER_ERROR;
+            $errorCode = method_exists($th, 'getErrorCode') ? get_class($th)::getErrorCode()  : Response::INTERNAL_SERVER_ERROR;
             $errorMessage = method_exists($th, 'getErrorMessage') ? get_class($th)::getErrorMessage()  : "An error occured/internal server error";
             $errorFile = $th->getTrace()[0]['file'];
             $errorline = $th->getTrace()[0]['line'];

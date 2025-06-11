@@ -1,10 +1,21 @@
-<?php 
+<?php
 
 namespace Core\Exception\DatabaseException;
 
-use Core\Exception\ThrowExceptionTrait;
-use Exception;
+use Core\Exception\Foundation\BaseException;
+use Core\Response;
 
-class DatabaseException extends Exception{
-    use ThrowExceptionTrait;
+final class DatabaseException extends BaseException {
+    public function getErrorCode(): int|Response
+    {
+        return Response::SERVER_ERROR;          
+    }
+    public function getErrorName(): string
+    {
+        return 'Internal Server Error';
+    }
+    public function getErrorMessage(): string
+    {
+        return 'Something went wrong...';
+    }
 }

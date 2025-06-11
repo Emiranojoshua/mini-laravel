@@ -28,7 +28,6 @@ class Connection
         $this->dsn = "mysql:host=" . env('host') . ";dbname=" . env('database');
         $this->options = [];
 
-
         // dd($this->options);
 
         try {

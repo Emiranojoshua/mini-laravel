@@ -50,5 +50,5 @@ enum Exceptions: string
         ];
     }
 }
-exception(Exceptions::NOTFOUNDEXCEPTION->throw());
+// exception(Exceptions::NOTFOUNDEXCEPTION->throw());
 // exception(Exceptions::NOTFOUNDEXCEPTION(Response::NOT_FOUND, 'something went wronfg'));
