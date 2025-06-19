@@ -1,19 +1,19 @@
 <?php
 
-namespace Core\Exception\DatabaseException;
+namespace Core\Exception\ServerException;
 
 use Core\Exception\Foundation\BaseException;
 use Core\Response;
 
-final class DatabaseException extends BaseException
+final class RequestErrorException extends BaseException
 {
     public function setError(): Response
     {
-        return Response::INTERNAL_SERVER_ERROR;
+        return Response::BAD_REQUEST;
     }
 
     public function setErrorMessage(): string
     {
-        return "Something went wrong...";
+        return "Request error...";
     }
 }

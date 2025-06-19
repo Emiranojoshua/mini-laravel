@@ -31,7 +31,7 @@ class MiddlewareHandler
 
     private function Auth(Middleware $middleware)
     {
-        return throw AuthException::ThrowException(Response::UNAUTHORIZED, 'UNAUTHORIZED');
+        return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
     }
 
     private function Guest(Middleware $middleware) {}

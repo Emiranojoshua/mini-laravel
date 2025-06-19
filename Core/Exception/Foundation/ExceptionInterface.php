@@ -2,6 +2,8 @@
 
 namespace Core\Exception\Foundation;
 
+use Core\Response;
+
 interface ExceptionInterface
 {
     public  function getErrorCode(): int;

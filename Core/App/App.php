@@ -2,7 +2,9 @@
 
 namespace Core\App;
 
+use Core\Exception\Foundation\BaseException;
 use Core\Exception\RouterException\NotFoundException;
+use Core\Request\Request;
 use Core\Response;
 use Core\Route;
 use Exception;
@@ -14,11 +16,13 @@ class App
 
     private function __construct()
     {
-        try {
-            throw NotFoundException::throwException();
-        } catch (\Throwable $e) {
-            dd($e->getLine());
-        }
+        // dd(Request::getRequest());
+        // try {
+        //     throw NotFoundException::throwException();
+        // } catch (BaseException $e) {
+        //     dd($e->getErrorCode());
+        // }
+
     }
 
     // private function __clone(){}
@@ -39,28 +43,35 @@ class App
     {
         try {
             Route::route();
-        } catch (Exception $th) {
-            $errorCode = method_exists($th, 'getErrorCode') ? get_class($th)::getErrorCode()  : Response::INTERNAL_SERVER_ERROR;
-            $errorMessage = method_exists($th, 'getErrorMessage') ? get_class($th)::getErrorMessage()  : "An error occured/internal server error";
-            $errorFile = $th->getTrace()[0]['file'];
-            $errorline = $th->getTrace()[0]['line'];
-            if (strpos($errorFile, 'functions.php')) {
-                $errorFile = $th->getTrace()[1]['file'];
-                $errorline = $th->getTrace()[1]['line'];
-            }
+        } catch (BaseException $e) {
+            // dd($e->);
+            $errorCode = $e->getErrorCode()  ?: Response::INTERNAL_SERVER_ERROR->getvalue();
+            $errorMessage = $e->getErrorMessage() ?: "An error occured/internal server error";
+            $errorName = $e->getErrorName() ?: "Internal Server Error";
+            $error = $e->getError();
+
+            // $errorFile = $th->getTrace()[0]['file'];
+            // $errorline = $th->getTrace()[0]['line'];
+            // if (strpos($errorFile, 'functions.php')) {
+            //     $errorFile = $th->getTrace()[1]['file'];
+            //     $errorline = $th->getTrace()[1]['line'];
+            // }
             //return http status code
             // http_response_code($errorCode);
-
+            // dd($error);
             //render error page
             return renderError(
-                [
-                    'errorCode' => $errorCode->value,
+                params: [
+                    'errorCode' => $errorCode,
                     'errorMessage' => $errorMessage,
-                    'errorFile' => $errorFile,
-                    'errorLine' => $errorline,
+                    'errorFile' => 1111111111111,
+                    'errorLine' => 2222222222222,
+                    'errorName' => $errorName,
+                    'requestData' => Request::getRequest(),
                 ],
-                $errorCode,
+                response_code: $error,
             );
+            //add exception info to text document
         }
     }
 

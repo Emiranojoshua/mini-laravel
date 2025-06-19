@@ -1,13 +1,10 @@
 <?php
 
 use Config\Config;
-use Core\Exception\ExceptionHandler;
-use Core\Exception\Exceptions;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Request\Request as RequestRequest;
 use Core\Response;
-use Core\Routing\Request;
-use Core\Routing\Router;
+
 use Core\Session\Session;
 use HTTP\RedirectResponse;
 
@@ -22,9 +19,9 @@ function dd(mixed  $value)
 function pp(array | string | int $value)
 {
     if (is_array($value)) {
-        foreach ($value as $value) {
+        foreach ($value as $print_value) {
             echo '<prev>';
-            echo ("{$value}" . '</br>');
+            echo ("{$print_value}" . '</br>');
             echo '</prev>';
         }
         return;
@@ -32,6 +29,12 @@ function pp(array | string | int $value)
     echo '<prev>';
     echo ("{$value}" . '</br>');
     echo '</prev>';
+}
+
+function dc(mixed $value): void {
+    echo '<pre>';
+    var_dump($value);
+    echo '</pre>';
 }
 
 function logger(mixed $value)
@@ -46,6 +49,13 @@ function base_path(string $path)
     return require BASE_PATH . $path;
 }
 
+// must the response code be defined in the response file or can just be retured as int 
+//it all comes down to design 
+//two options to go with 
+//create new git branch to make response_code both int and response
+//option two is include the response as response
+//option three is to make it buth resonse and int 
+
 function view(string $path, array $params = [], Response $response_code = Response::OK)
 {
     (count($params) <= 0) || extract($params);
@@ -55,13 +65,13 @@ function view(string $path, array $params = [], Response $response_code = Respon
     // dd($viewFile);
 
     file_exists($viewFile) ||  throw NotFoundException::ThrowException(
-        Response::NOT_FOUND,
         "The requested file <b>$path</> does not exist",
+        Response::NOT_FOUND,
     );
 
     // ob_start();
     // http_response_code($response->value);
-    request_status_code($response_code);
+    status_code($response_code);
     require $viewFile;
     return;
 }
@@ -71,20 +81,6 @@ function renderError(array $params, Response $response_code = Response::NOT_FOUN
     // dd($params);
     return view('errors/error', $params, $response_code);
 }
-
-
-function exception(
-    Exceptions | array $exception,
-    Response $errorCode = Response::DEFAULT,
-    string $error = ''
-) {
-    if (is_array($exception)) {
-        [$exception, $errorCode, $errormessage] = $exception;
-        return throw $exception::ThrowException($errorCode, $errormessage);
-    }
-
-    return throw $exception->value::ThrowException($errorCode, $error);
-};
 
 function session_flash(array $data)
 {
@@ -128,16 +124,14 @@ function flashAll()
 function env(string $key)
 {
 
-    return Config::database()['database']['mysql'][$key] ?? exception(
-        Exceptions::NOTFOUNDEXCEPTION->throw(
-            "Config key:$key not found"
-        )
+    return Config::database()['database']['mysql'][$key] ?? throw NotFoundException::throwException(
+        "Config key:$key not found", Response::NOT_FOUND
     );
 }
 
-function request_status_code(Response $response_code)
+function status_code(Response $response_code)
 {
-    http_response_code($response_code->value);
+    http_response_code($response_code->getValue());
     return;
 }
 

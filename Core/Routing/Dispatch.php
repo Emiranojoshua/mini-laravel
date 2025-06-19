@@ -2,26 +2,20 @@
 
 namespace Core\Routing;
 
-use Core\Auth\Auth;
 use Core\Container\Container;
-use Core\Container\ContainerHandler;
-use Core\Exception\Exceptions;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
 use Core\Middleware\MiddlewareHandler;
-use Core\Request\Request;
 use Core\Response;
 
 class Dispatch
 {
     public static function dispatch(array $request, array $routes)
     {
-
         // [$uri, $method] = $request;
-        $uri = $request['path'];
-        $method = $request['method'];
-
-        $method = strtolower($method);
+        $uri = $request['uri'];
+        $method = strtolower($request['method']);
+        $url =  $request['requestData']['HTTP_HOST'] . $uri;
         foreach ($routes as $route) {
             if ($uri == $route->uri && $method == $route->method) {
                 // print_r($route['controller']);
@@ -29,7 +23,7 @@ class Dispatch
                 (new MiddlewareHandler($route->middleware))->handle();
 
                 // Middlewarehandler::handle($route->middleware);
-                return static::dispatchRoute($route->controller);
+            return static::dispatchRoute($route->controller);
             }
         }
         // return throw NotFoundException::ThrowException(
@@ -38,7 +32,10 @@ class Dispatch
         // );
 
         // dd(Exception(Exceptions::NOTFOUNDEXCEPTION->throw()));
-        return exception(Exceptions::NOTFOUNDEXCEPTION->throw());
+        return throw NotFoundException::throwException(
+            "The Requested Page $url does not exist or wasn't found...",
+            Response::NOT_FOUND
+        );
     }
 
     public static function dispatchRoute(array | callable $controller)
@@ -53,9 +50,9 @@ class Dispatch
             return self::dispatchmethod($controller);
         }
         // dd('this was reached');
-        return throw RouterRuntimeException::ThrowException(
-            Response::BAD_REQUEST,
-            "INVALID CONTROLLER PARAMETER SET"
+        return throw RouterRuntimeException::throwException(
+            "INVALID CONTROLLER PARAMETER SET",
+            Response::BAD_REQUEST
         );
     }
 
@@ -71,15 +68,16 @@ class Dispatch
     {
         [$controller, $method] = $controller;
         if (!class_exists($controller)) {
-            throw RouterRuntimeException::ThrowException(
-                Response::BAD_REQUEST,
+
+            return throw RouterRuntimeException::throwException(
                 "Controller $controller not found",
+                Response::BAD_REQUEST
             );
         }
         if (!method_exists($controller, $method)) {
-            throw RouterRuntimeException::ThrowException(
-                Response::BAD_REQUEST,
-                "Method $method not found in $controller"
+            return throw RouterRuntimeException::throwException(
+                "Method $method not found in $controller",
+                Response::BAD_REQUEST
             );
         }
 

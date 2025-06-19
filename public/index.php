@@ -14,3 +14,38 @@ require BASE_PATH . '\..\routes\web.php';
 // App::run();
 // session_start();
 App::getInstance()->run();
+
+
+
+class Mother
+{
+    public function a()
+    {
+        return;
+    }
+    public function b()
+    {
+        return;
+    }
+    public function c()
+    {
+        return;
+    }
+}
+
+class Father extends Mother
+{
+    public function abc()
+    {
+        return;
+    }
+}
+
+class Child extends Father{
+    public function emm( ): void
+    {
+        return;
+    }
+}
+
+(new Child)->b();

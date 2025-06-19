@@ -31,8 +31,8 @@ class RedirectResponse
     public function back(): static
     {
         // $referer = $_SERVER['HTTP_REFERER'] ?? '/';
-        $request = Request::getRequest();
-        $this->url = $request['path'];
+        $request = Request::getRequestUri();
+        $this->url = $request;
         return $this;
     }
 

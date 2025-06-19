@@ -1,6 +1,6 @@
 <? 
 
-
+Database::getConnection();
 /**
  * Simple Database Connection
  */
@@ -8,7 +8,7 @@ class Database
 {
     private static $connection = null;
     
-    public static function connect($config)
+    public static function connect(array $config)
     {
         if (self::$connection === null) {
             try {

@@ -6,7 +6,7 @@ use ReflectionClass;
 
 abstract class Model
 {
-    use ModelHandler;
+    // use ModelHandler;
 
     protected $table;
     protected $fillable = [];

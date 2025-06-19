@@ -3,7 +3,6 @@
 use Core\Middleware;
 use Core\Route;
 use HTTP\Controllers\HomeController;
-use HTTP\Controllers\PostController;
 
 
 Route::get('/', function () {

@@ -2,6 +2,7 @@
 
 namespace Core\Request;
 
+use Core\Exception\ServerException\RequestErrorException;
 use Core\Response;
 use Core\Validation\Validator;
 use Exception;
@@ -72,21 +73,23 @@ class Request
         return $this->all()[$value] ?? throw new Exception('invalid parameter');
     }
 
-    public static function getRequest(): array
+    public static function getRequest(bool $requestData = false): array
     {
-        $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-        $method = $_SERVER['REQUEST_METHOD'];
-
-        return [
-            'path' => $uri,
-            'method' => $method
-        ];
-
-        // return $this;
+        $requestData = $_SERVER;
+        return $requestData;
     }
 
-    public function path(): string
+    public static function getRequestUri(): string
     {
-        return $this::getRequest()['path'] ?? '/';
+        return parse_url(static::getRequest()['REQUEST_URI'])['path'] ?? '/';
+    }
+    public static function getRequestMethod(): string
+    {
+        return parse_url(static::getRequest()['REQUEST_METHOD'])['path']
+            ??
+            throw RequestErrorException::throwException(
+                "The requested method does not exist",
+                Response::BAD_REQUEST
+            );
     }
 }

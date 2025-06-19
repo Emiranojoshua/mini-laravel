@@ -2,8 +2,6 @@
 
 namespace Core\Exception\Foundation;
 
-use Core\Exception\AuthException\AuthException;
-use Core\Exception\RouterException\NotFoundException;
 use Core\Response;
 use Exception;
 use Throwable;
@@ -14,11 +12,17 @@ abstract class BaseException extends Exception implements ExceptionInterface
     private string $errorName;
     private int $errorCode;
     private string $errorMessage;
+    private Response $error;
 
-    private function __construct(?Response $errorCode = null, ?string $message = null, int $code = 0, ?Throwable $previous = null)
-    {
+    private function __construct(
+        ?Response $errorCode = null,
+        ?string $message = null,
+        int $code = 0,
+        ?Throwable $previous = null
+    ) {
 
         $errorResponse = $this->setError();
+        $this->error = $errorResponse;
         $this->errorName = $errorCode?->getName() ?? $errorResponse->getName();
         $this->errorCode =  $errorCode?->getValue() ?? $errorResponse->getValue();
         $this->errorMessage = $message ?? $this->setErrorMessage();
@@ -31,7 +35,7 @@ abstract class BaseException extends Exception implements ExceptionInterface
 
     abstract protected function setError(): Response;
 
-    abstract public function setErrorMessage(): string;
+    abstract protected function setErrorMessage(): string;
 
 
     public function getErrorCode(): int
@@ -48,9 +52,20 @@ abstract class BaseException extends Exception implements ExceptionInterface
         return $this->errorMessage;
     }
 
+    public function getError(): Response{
+        return $this->error;
+    }
+
+    /**
+     * @param null|string $errorMessage the exception message to be thrown, defaults to called class $errorMessage
+     * @param null|Response $errorCode the exception Response type, defaults to called class $errorCode
+     * @param int $code Exception code 
+     * @return static returns an exception 
+     */
+
     public static function throwException(
-        ?string $errorMessage = null,
-        ?Response $errorCode = null,
+        string $errorMessage,
+        Response $errorCode ,
         int $code = 0,
         ?Throwable $previous = null
     ) {
