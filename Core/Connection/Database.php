@@ -2,16 +2,17 @@
 
 namespace Core\Connection;
 
-use Core\Exception\Exceptions;
-use Exception;
+use Core\Exception\DatabaseException\DatabaseException;
+use Core\Response;
 use PDO;
+use PDOStatement;
 
-class Connection
+class Database
 {
 
     public  $connection;
 
-    private $statement;
+    private PDOStatement $statement;
 
     private string $username;
     private string $password;
@@ -40,20 +41,19 @@ class Connection
                 ],
             );
         } catch (\Throwable $e) {
-            throw new Exception('Database connection failed: ' . $e->getMessage());
+            throw DatabaseException::throwException($e->getMessage(), Response::INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function query(String $query, $param = [])
+    public function query(String $query, array $param = []): PDOStatement
     {
-        $this->statement = $this->connection->prepare($query);
-        $this->statement->execute($param);
-        return $this;
-    }
-
-    public function get()
-    {
-        return $this->statement->fetchAll();
+        try {
+            $this->statement = $this->connection->prepare($query);
+            $this->statement->execute($param);
+            return $this->statement;
+        } catch (\Throwable $e) {
+            throw DatabaseException::throwException($e->getMessage(), Response::INTERNAL_SERVER_ERROR);
+        }
     }
 
     public static function getConnection()
@@ -63,5 +63,5 @@ class Connection
         }
 
         return self::$instance;
-    }
+    }   
 }

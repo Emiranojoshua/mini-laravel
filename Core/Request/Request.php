@@ -2,10 +2,12 @@
 
 namespace Core\Request;
 
+use Core\Exception\ServerException\RequestErrorException;
+use Core\Response;
 use Core\Validation\Validator;
 use Exception;
 
-class Request
+class Request extends Validator
 {
 
     public array $data;
@@ -31,21 +33,23 @@ class Request
     }
 
 
-    public function validate(array $rules): mixed
-    {
-        $validator =  new Validator($rules, $this->all());
+    // public function validate(array $rules): array
+    // {
+    //     $validator =  new Validator($rules, $this->all());
 
-        if (!$validator->passes()) {
-            session_flash($validator->getErrors());
-            session_old($this->all());
-            //coming back for this return value
-            //redirection 
-            return false;
-        };
+    //     if (!$validator->passes()) {
+    //         session_flash($validator->getErrors());
+    //         session_old($this->all());
 
-        //return valdation value
-        return $this->all();
-    }
+    //         redirect()->back()->setStatus(Response::REDIRECT)->send();
+    //         exit;
+    //         // $request = Request::getRequest();
+
+    //         // back();
+    //     };
+
+    //     return $this->all();
+    // }
 
     public function only(array $keys)
     {
@@ -67,5 +71,25 @@ class Request
     {
 
         return $this->all()[$value] ?? throw new Exception('invalid parameter');
+    }
+
+    public static function getRequest(bool $requestData = false): array
+    {
+        $requestData = $_SERVER;
+        return $requestData;
+    }
+
+    public static function getRequestUri(): string
+    {
+        return parse_url(static::getRequest()['REQUEST_URI'])['path'] ?? '/';
+    }
+    public static function getRequestMethod(): string
+    {
+        return parse_url(static::getRequest()['REQUEST_METHOD'])['path']
+            ??
+            throw RequestErrorException::throwException(
+                "The requested method does not exist",
+                Response::BAD_REQUEST
+            );
     }
 }

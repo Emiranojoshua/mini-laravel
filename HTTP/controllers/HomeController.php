@@ -3,35 +3,32 @@
 namespace HTTP\Controllers;
 
 use Core\Auth\Auth;
-use Core\Models\UserModel;
+use Core\Models\User;
 use Core\Request\Request;
-use Core\Validation\Validator;
 
 final class HomeController
 {
   public function index(string $name = 'SOMETHING')
-  {
-    return view("home");
+  {    
+    return view("login");
   }
-  public function create(Request $request, Auth $auth, UserModel $userModel)
+  public function create(Request $request, Auth $auth, User $userModel): void
   {
-
     $attr = $request->validate([
       'email' => ['required', 'email', 'min:5'],
       'password' => ['required', 'min:6'],
     ]);
 
-    if(!$attr){
-      return view('/login');
-    }
-
-    $authUser = $userModel->create($attr);
-
-
-
-    // dd($_SESSION);
-    // $auth::create();
-    $auth->login($authUser);
+    //check if table exist
+    //create table if not exist
+    //insert fields to table based on what is here
+    //but if we use this then the table is created with just these 
+    //create the table by developer seems legitly better 
+    //but if table not created have option of create table
+    $user = $userModel->create($attr);
+    // dd($user);
+    $auth->login($user);
+    // return redirect();    
   }
   public function store() {}
   public function show() {}
