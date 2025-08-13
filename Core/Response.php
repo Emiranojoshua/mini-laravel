@@ -23,6 +23,7 @@ enum Response: int
             self::UNAUTHORIZED => $this->name,
             self::REDIRECT => $this->name,
             self::FORBIDDEN => $this->name,
+            self::BAD_REQUEST => $this->name,
         };
     }
     public function getValue()
@@ -35,6 +36,9 @@ enum Response: int
             self::UNAUTHORIZED => $this->value,
             self::REDIRECT => $this->value,
             self::FORBIDDEN => $this->value,
+            self::BAD_REQUEST => $this->value,
         };
     }
 }
+
+

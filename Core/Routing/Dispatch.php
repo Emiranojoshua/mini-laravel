@@ -23,7 +23,7 @@ class Dispatch
                 (new MiddlewareHandler($route->middleware))->handle();
 
                 // Middlewarehandler::handle($route->middleware);
-            return static::dispatchRoute($route->controller);
+                return static::dispatchRoute($route->controller);
             }
         }
         // return throw NotFoundException::ThrowException(
@@ -81,7 +81,8 @@ class Dispatch
             );
         }
 
-
+        //no need of making rsolve class static 
+        //refactor
         $dependencies = Container::resolveMethod($controller, $method);
         return (new $controller())->$method(...$dependencies);
 

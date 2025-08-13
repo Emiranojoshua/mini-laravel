@@ -2,9 +2,12 @@
 
 namespace Core\Container;
 
+use Core\Exception\ContainerException\ClassNotFoundException;
+use Core\Exception\ContainerException\ReflectorInstantiableException;
+use Core\Exception\RouterException\NotFoundException;
+use Core\Response;
 use Exception;
 use ReflectionClass;
-use ReflectionMethod;
 
 class ContainerHandler
 {
@@ -34,13 +37,19 @@ class ContainerHandler
         }
 
         if (!class_exists($class)) {
-            throw new Exception("$class is not a valid class");
+            throw ClassNotFoundException::throwException(
+                "$class is not a valid class",
+                Response::BAD_REQUEST
+            );
         }
 
         $reflector  = new ReflectionClass($class);
 
         if (!$reflector->isInstantiable()) {
-            throw new Exception;
+            throw ReflectorInstantiableException::throwException(
+                "reflector class $class is not isInstantiable",
+                Response::BAD_REQUEST
+            );
         }
 
         $constructor  = $reflector->getConstructor();
@@ -101,7 +110,10 @@ class ContainerHandler
                     $dependencies[] = $parameter->getDefaultValue();
                     return $dependencies;
                 } else {
-                    return throw new Exception("remove or pass in a default value to the method parameter",);
+                    throw ReflectorInstantiableException::throwException(
+                        "remove or pass in a default value to the method parameter",
+                        Response::BAD_REQUEST
+                    );
                 }
             }
             $class = $parameter->getType()->getName();

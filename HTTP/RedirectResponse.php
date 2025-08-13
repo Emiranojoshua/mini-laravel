@@ -11,7 +11,12 @@ class RedirectResponse
     protected Response $statusCode;
     protected array $flashData = [];
 
-    public function __construct(string $url, Response $statusCode = Response::REDIRECT)
+    //testing instance in redirect response
+    private static ?RedirectResponse $instance = null; 
+
+
+
+    private function __construct(string $url, Response $statusCode = Response::REDIRECT)
     {
         $this->url = $url;
         $this->statusCode = $statusCode;
@@ -19,7 +24,11 @@ class RedirectResponse
 
     public static function make(string $url, Response $statusCode = Response::REDIRECT): static
     {
-        return new static($url, $statusCode);
+        if(self::$instance == null){
+            self::$instance = new self($url, $statusCode);
+        }
+        return self::$instance;
+        // return new static($url, $statusCode);
     }
 
     public function with(array $data): static

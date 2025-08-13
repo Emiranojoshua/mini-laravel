@@ -16,7 +16,7 @@ function dd(mixed  $value)
     die();
 }
 
-function pp(array | string | int $value)
+function pp(array | string | int | null $value)
 {
     if (is_array($value)) {
         foreach ($value as $print_value) {
@@ -31,7 +31,8 @@ function pp(array | string | int $value)
     echo '</prev>';
 }
 
-function dc(mixed $value): void {
+function dc(mixed $value): void
+{
     echo '<pre>';
     var_dump($value);
     echo '</pre>';
@@ -95,9 +96,28 @@ function session_old(array $value): void
 }
 
 
-function errors($key)
+function errors($key,  bool $handle = false)
 {
-    return getSession($key) ?? '';
+
+    // $eror = errors('email');
+    //         foreach ($email as $value) {
+    //             # code...
+    //             echo $value;
+    //         }
+    // return [
+    //     "email not registered",
+    //     "something went wrong",
+    //     "3 reading wrong",
+    // ];
+    $error =  getSession($key, true);
+
+    if ($handle || is_string($error)) {
+        return $error;
+    }
+
+    foreach ($error as $value) {
+        echo $value . "..  ";
+    }    // return getSession($key) ?? '';
 }
 
 function old($key, $default = '')
@@ -105,9 +125,9 @@ function old($key, $default = '')
     return getSession('_old')[$key] ?? $default;
 }
 
-function getSession($key)
+function getSession($key, $all = false)
 {
-    return Session::get($key);
+    return Session::get($key, $all);
 }
 
 function session_unflash()
@@ -121,11 +141,12 @@ function flashAll()
     return Session::flashAll();
 }
 
-function env(string $key)
+function env(string $key): string
 {
 
     return Config::database()['database']['mysql'][$key] ?? throw NotFoundException::throwException(
-        "Config key:$key not found", Response::NOT_FOUND
+        "Config key:$key not found",
+        Response::NOT_FOUND
     );
 }
 

@@ -5,43 +5,25 @@ namespace Core\Validation;
 use Core\Request\Request;
 use Core\Response;
 
-class Validator
+abstract class Validator
 {
     use BaseValidator;
 
-    public function __construct(
-        protected array $rules,
-        protected array $data
-    ) {
-        $this->validator();
-    }
+    // public function __construct(
+    //     protected array $rules,
+    //     protected array $data
+    // ) {
+    //     $this->validator();
+    // }
 
-    public function validate(array $rules, array $data): array
+    public function validate(array $rules): array
     {
-        $data = (new Request())->all();
-        // $validator =  new Validator($rules, (new Request())->all());
+        $data  = $this->all();
 
-        if (!$this->passes()) {
-            session_flash($this->getErrors());
-            session_old($data);
-
-            redirect()->back()->setStatus(Response::REDIRECT)->send();
-            exit;
-            // $request = Request::getRequest();
-
-            // back();
-        };
-
-        return $data;
-    }
-
-    public function validator()
-    {
-        foreach ($this->rules as $field => $ruleArray) {
-            $value = $this->data[$field] ?? null;
+        foreach ($rules as $field => $ruleArray) {
+            $value = $data[$field] ?? null;
             foreach ($ruleArray as $rule) {
-                [$rulename, $rulevalue] = $this->parseRule($rule);
-
+                // dc($rule);
                 if (!is_string($rule)) {
                     continue; // skip anything that's not a string
                 }
@@ -57,5 +39,19 @@ class Validator
                 }
             }
         }
+
+        if (!$this->passes()) {
+            session_flash($this->getErrors());
+            session_old($data);
+
+            redirect()->back()->setStatus(Response::REDIRECT)->send();
+            exit;
+            // $request = Request::getRequest();
+
+            // back();
+        };
+
+        return $data;
     }
+
 }

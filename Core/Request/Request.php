@@ -7,7 +7,7 @@ use Core\Response;
 use Core\Validation\Validator;
 use Exception;
 
-class Request
+class Request extends Validator
 {
 
     public array $data;
@@ -33,23 +33,23 @@ class Request
     }
 
 
-    public function validate(array $rules): array
-    {
-        $validator =  new Validator($rules, $this->all());
+    // public function validate(array $rules): array
+    // {
+    //     $validator =  new Validator($rules, $this->all());
 
-        if (!$validator->passes()) {
-            session_flash($validator->getErrors());
-            session_old($this->all());
+    //     if (!$validator->passes()) {
+    //         session_flash($validator->getErrors());
+    //         session_old($this->all());
 
-            redirect()->back()->setStatus(Response::REDIRECT)->send();
-            exit;
-            // $request = Request::getRequest();
+    //         redirect()->back()->setStatus(Response::REDIRECT)->send();
+    //         exit;
+    //         // $request = Request::getRequest();
 
-            // back();
-        };
+    //         // back();
+    //     };
 
-        return $this->all();
-    }
+    //     return $this->all();
+    // }
 
     public function only(array $keys)
     {

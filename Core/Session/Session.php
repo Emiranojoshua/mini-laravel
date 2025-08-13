@@ -2,8 +2,6 @@
 
 namespace Core\Session;
 
-use Core\Exception\Exceptions;
-use Core\Response;
 
 class Session
 {
@@ -25,6 +23,10 @@ class Session
     public static function session_old(array $data): void
     {
         foreach ($data as $key => $value) {
+            if ($key == "password") {
+                break;
+            }
+            true ? "" : "";
             $_SESSION['_old'][$key] = $value;
         }
         return;
@@ -51,10 +53,15 @@ class Session
         return;
     }
 
-    public static function get($key): mixed
+    public static function get($key, bool $all = false): mixed
     {
+        if ($all) {
+            return $_SESSION['_flash'][$key] ?? $_SESSION[$key] ?? "";
+        }
+        //inclusive of array and not just value returned from array
         return $_SESSION['_flash'][$key][0] ?? $_SESSION[$key] ?? "";
     }
+
 
     // public static function old($key): mixed
     // {

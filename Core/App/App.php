@@ -3,11 +3,10 @@
 namespace Core\App;
 
 use Core\Exception\Foundation\BaseException;
-use Core\Exception\RouterException\NotFoundException;
 use Core\Request\Request;
 use Core\Response;
 use Core\Route;
-use Exception;
+
 
 class App
 {
@@ -16,6 +15,16 @@ class App
 
     private function __construct()
     {
+
+        session_start();
+
+        //protect against DDOS attack here
+
+
+
+
+
+
         // dd(Request::getRequest());
         // try {
         //     throw NotFoundException::throwException();
@@ -44,6 +53,7 @@ class App
         try {
             Route::route();
         } catch (BaseException $e) {
+            // dd($e);
             // dd($e->);
             $errorCode = $e->getErrorCode()  ?: Response::INTERNAL_SERVER_ERROR->getvalue();
             $errorMessage = $e->getErrorMessage() ?: "An error occured/internal server error";
@@ -78,6 +88,10 @@ class App
     public function __destruct()
     {
         // var_dump($_SESSION);
+        dc($_SESSION);
         session_unflash();
+        dc($_SESSION);
+
+        // Session::destroy();
     }
 }

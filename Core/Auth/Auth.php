@@ -2,60 +2,36 @@
 
 namespace Core\Auth;
 
-use Core\Connection\Connection;
-use Core\Exception\AuthException\AuthException;
-use Core\Exception\Exceptions;
-use Core\Models\Resource\Model;
-use Core\Request\Request;
-
-class Auth
+class Auth implements AuthProvider
 {
 
-    public function authenticate() {}
+    public function __construct(private AuthService $authProvider) {}
 
-    public function user()
+    public function login(array $user): bool
     {
-        return 'user returned';
-        //get user from session 
-        //session already store user data
-        //needes session construction that constructors session data 
+        // return $authProvider->
+        return $this->authProvider->login($user);
     }
-
-
-    public function create(array $attributes): void
+    public function logout(): void
     {
-        //check if user exist
-        //perform validation
-        //signup user
-        if (empty($attributes)) {
-            exception(Exceptions::AUTHEXCEPTION->throw("Empty attributes passed"));
-        }
-
-
-        //read
-        //write
-        //update
-        //delete
-        //secondaty ----
-        //join
-
-
+        // return $authProvider->
+         $this->authProvider->logout();
     }
-
-    public function login(Model $model)
+    public function user(): array|null
     {
-
-        //user should be a class of its own 
-
-        // dd($model->attributes);
-
-        // dd((new Request())->only(['email']));
-
-        if (empty($args)) {
-            $query =  "SELECT * FROM USERS where email = :email AND  password = :password";
-        }
+        // return $authProvider->
+        return $this->authProvider->user();
     }
-    public function logout() {}
-    public function verify($username, $password) {}
-    public function check($username, $password) {}
+    public function verify(): bool
+    {
+        // return $authProvider->
+        return $this->authProvider->verify();
+    }
+    public function authenticate(): array
+    {
+        // return $authProvider->
+        return $this->authProvider->authenticate();
+    }
 }
+
+

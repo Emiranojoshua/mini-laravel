@@ -13,7 +13,8 @@
     <form action="" method="post">
         <label for="email">email</label>
         <input type="text" name="email" id="email" value="<?= old('email') ?>" placeholder="email address...">
-        <?= errors('email')?>
+        <?php errors('email')?>
+       
         <label for="password">password</label>
         <input type="text" name="password" id="password" value="<?= old('password') ?>" placeholder="password...">
         <?= errors('password')?>

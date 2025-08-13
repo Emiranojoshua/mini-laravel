@@ -14,7 +14,7 @@ class Container
         if (self::$instance == null) {
             self::$instance = new ContainerHandler;
         }
-
+        // dd($args);
         if (count($args) > 2) {
             throw new Exception("resolver required 1 argument " . count($args) . " passed");
         }
