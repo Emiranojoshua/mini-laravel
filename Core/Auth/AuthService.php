@@ -3,8 +3,11 @@
 namespace Core\Auth;
 
 use Core\Connection\Database;
+use Core\Exception\AuthException\EmptyCredentialsAuthException;
+use Core\Exception\AuthException\UserNotFoundAuthException;
+use Core\Response;
 
-final class AuthService implements AuthProvider
+final class AuthService implements AuthInterface
 {
 
     private ?Database $connection = null;
@@ -19,14 +22,19 @@ final class AuthService implements AuthProvider
     public function login(array $credentials): bool
     {
         if (empty($credentials)) {
-            //throw empty exception;
+            throw EmptyCredentialsAuthException::throwException(
+                "Empty credentials provided",
+                Response::BAD_REQUEST
+            );
         }
         $email    = trim($credentials['email'] ?? '');
         $password = $credentials['password'] ?? '';
 
         if ($email === '' || $password === '') {
-            //throw exception here
-            return false;
+            throw EmptyCredentialsAuthException::throwException(
+                "Empty credentials provided",
+                Response::BAD_REQUEST
+            );
         }
 
         //fetch user from database 
@@ -35,12 +43,20 @@ final class AuthService implements AuthProvider
         $user = $stmt->fetch();
 
         if (!$user) {
-            //throw exception here
-            return false;
+            throw UserNotFoundAuthException::throwException(
+                "User not found",
+                Response::BAD_REQUEST
+            );
         }
 
         // Verify hashed password
+        // dd([$password, $user['password']]);
+        // --- IGNORE ---
         if (!password_verify($password, $user['password'])) {
+            //send user back to login page
+            //fill the session with an error message
+            session_flash(["Invalid credentials provided"]);
+            redirect()->back()->setStatus(Response::UNAUTHORIZED)->send();
             return false;
         }
 

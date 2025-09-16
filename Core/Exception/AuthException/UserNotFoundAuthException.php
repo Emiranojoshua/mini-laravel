@@ -5,13 +5,13 @@ namespace Core\Exception\AuthException;
 use Core\Exception\Foundation\BaseException;
 use Core\Response;
 
-final class AuthException extends BaseException {
+final class UserNotFoundAuthException extends BaseException {
     public function setError(): Response
     {
         return Response::BAD_REQUEST;          
     }
 
     public function setErrorMessage(): string{
-        return "An auth exception occured";
+        return "User not found";
     }
 }

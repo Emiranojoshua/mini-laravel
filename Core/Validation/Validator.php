@@ -5,6 +5,10 @@ namespace Core\Validation;
 use Core\Request\Request;
 use Core\Response;
 
+/**
+ * @method array all()
+ */
+
 abstract class Validator
 {
     use BaseValidator;

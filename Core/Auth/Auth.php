@@ -2,7 +2,7 @@
 
 namespace Core\Auth;
 
-class Auth implements AuthProvider
+class Auth implements AuthInterface
 {
 
     public function __construct(private AuthService $authProvider) {}

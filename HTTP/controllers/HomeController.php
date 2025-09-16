@@ -9,7 +9,7 @@ use Core\Request\Request;
 final class HomeController
 {
   public function index(string $name = 'SOMETHING')
-  {    
+  {
     return view("login");
   }
   public function create(Request $request, Auth $auth, User $userModel): void
@@ -26,8 +26,12 @@ final class HomeController
     //create the table by developer seems legitly better 
     //but if table not created have option of create table
     $user = $userModel->create($attr);
-    // dd($user);
-    $auth->login($user);
+    if ($auth->login($attr)) {
+      header("Location: welcome");
+      exit();
+      view("welcome", ["user" => $auth->user()]);
+      exit();
+    };
     // return redirect();    
   }
   public function store() {}

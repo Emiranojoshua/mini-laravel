@@ -4,7 +4,7 @@ namespace Core\Auth;
 
 use Database;
 
-interface AuthProvider
+interface AuthInterface
 {
 
    

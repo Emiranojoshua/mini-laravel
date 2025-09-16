@@ -3,6 +3,7 @@
 namespace Core\Models\Resource;
 
 use Core\Connection\Database;
+use Core\Models\DTOs\UserEntity;
 use Core\Response;
 use ReflectionClass;
 
@@ -31,7 +32,7 @@ abstract class Model
     }
 
 
-    public function create(array $data): ?array
+    public function create(array $data): ?UserEntity
     {
 
         $existingUser = $this->findBy('email', [$data['email'] ?? '']);
@@ -77,7 +78,8 @@ abstract class Model
             // $this->response['status'] = 'success';
             // $this->response['message'] = 'User create successfully';
             // $this->response['data'] = $userData;
-            return $userData;
+            return new UserEntity($userData['id'], $userData['email'], $userData['created_at']);
+            // return $userData;
         } else {
             session_flash(["email" => "ser already exists"]);
             session_old($data);
