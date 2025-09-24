@@ -2,6 +2,7 @@
 
 namespace Core\Models\Resource;
 
+use Core\Components\ResponseComponent;
 use Core\Connection\Database;
 use Core\Models\DTOs\UserEntity;
 use Core\Response;
@@ -11,14 +12,13 @@ abstract class Model
 {
     // use ModelHandler;
     use ModelComponents;
+    use ResponseComponent;
 
     protected $table;
     protected array $fillable = [];
     protected $primaryKey = 'id';
 
     private ?Database $connection = null;
-
-    // private array $response = ["status" => "", "message" => "", "data" => []];
 
     public function __construct()
     {
@@ -38,12 +38,15 @@ abstract class Model
         $existingUser = $this->findBy('email', [$data['email'] ?? '']);
         if ($existingUser) {
             // dd(["email" => "ser already exists"]);
-           //returning more than one value
-            session_flash(['email' => ["acccount already exist"]]);
+            //returning more than one value
+            // session_flash(['email' => ["acccount already exist"]]);
 
-            session_old($data);
-            redirect()->back()->setStatus(Response::REDIRECT)->send();
-            exit;
+            // session_old($data);
+            // redirect(statusCode: Response::REDIRECT)->back();
+            $this->response['status'] = "failed";
+            $this->response['errors'] = ['email' => ["acccount already exist"]];
+            $this->response['data'] = $data;
+            return null;
         }
 
         if (isset($data['password'])) {
@@ -75,16 +78,20 @@ abstract class Model
         $userData = $this->findBy('email', [$email]);
 
         if (!empty($userData)) {
-            // $this->response['status'] = 'success';
-            // $this->response['message'] = 'User create successfully';
+            $this->response['status'] = 'success';
             // $this->response['data'] = $userData;
             return new UserEntity($userData['id'], $userData['email'], $userData['created_at']);
             // return $userData;
         } else {
-            session_flash(["email" => "ser already exists"]);
-            session_old($data);
-            redirect()->back()->setStatus(Response::REDIRECT)->send();
-            exit;
+            // session_flash(["email" => "ser already exists"]);
+            // session_old($data);
+            // redirect(statusCode: Response::REDIRECT)->back();
+            // exit;
+
+            $this->response['status'] = "failed";
+            $this->response['errors'] = ['email' => ["something went wrong"]];
+            $this->response['data'] = $data;
+            return null;
         }
     }
 

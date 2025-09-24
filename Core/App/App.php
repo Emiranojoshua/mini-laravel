@@ -88,9 +88,10 @@ class App
     public function __destruct()
     {
         // var_dump($_SESSION);
+        echo "deconstructor called from app";
         dc($_SESSION);
         session_unflash();
-        dc($_SESSION);
+        // dc($_SESSION);
 
         // Session::destroy();
     }

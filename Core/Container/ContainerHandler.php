@@ -11,10 +11,10 @@ use ReflectionClass;
 
 class ContainerHandler
 {
-    private $container = [];
+    private array $container = [];
 
     //enable singleton call to class
-    private $resolved = [];
+    private array $resolved = [];
 
     public function bind(string $abstract, string $class)
     {
@@ -80,7 +80,7 @@ class ContainerHandler
             } elseif (array_key_exists($parameter->getName(), $args)) {
                 $dependencies[] = $args[$parameter->getName()];
             } else {
-                dd($args);
+                // dd($args);
                 echo "$parameter is not a valid class";
             }
         }

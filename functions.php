@@ -156,15 +156,9 @@ function status_code(Response $response_code)
     return;
 }
 
-function redirect(string $url = '/', Response $response_code = Response::REDIRECT): RedirectResponse
+function redirect(string $url = '/', Response $statusCode = Response::OK)
 {
-    return RedirectResponse::make($url, $response_code);
+    return RedirectResponse::make($url, $statusCode);
 }
 
-function back(): RedirectResponse
-{
-    $request = RequestRequest::getRequest();
-    dd($request);
-    $referer = $_SERVER['HTTP_REFERER'] ?? '/';
-    return redirect($referer);
-}
+

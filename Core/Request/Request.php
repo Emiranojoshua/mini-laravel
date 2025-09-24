@@ -92,4 +92,12 @@ class Request extends Validator
                 Response::BAD_REQUEST
             );
     }
+
+    public static function getUrl(): string{
+        return self::getRequest()["HTTP_HOST"] . self::getRequestUri();
+    }
+
+    public static function getUriBack(): string{
+        return $_SERVER['HTTP_REFERER'] ?? '/';
+    }
 }

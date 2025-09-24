@@ -56,7 +56,7 @@ final class AuthService implements AuthInterface
             //send user back to login page
             //fill the session with an error message
             session_flash(["Invalid credentials provided"]);
-            redirect()->back()->setStatus(Response::UNAUTHORIZED)->send();
+            redirect(statusCode: Response::REDIRECT)->back();
             return false;
         }
 
