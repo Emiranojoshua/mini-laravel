@@ -35,6 +35,10 @@ class Session
     public static function flash(array $data): void
     {
         foreach ($data as $key => $value) {
+            if (!is_array($value)) {
+                $_SESSION['_flash'][$key] = [$value];
+                continue;
+            }
             $_SESSION['_flash'][$key] = $value;
         }
         return;

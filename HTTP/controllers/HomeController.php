@@ -29,6 +29,8 @@ final class HomeController
 
     $user = $userModel->create($attr);
 
+    // dc($userModel->getResponse("errors"));
+
     if ($user == null) {
       session_flash($userModel->getResponse("errors"));
       session_old($userModel->getResponse("formData"));
