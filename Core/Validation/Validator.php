@@ -34,14 +34,28 @@ abstract class Validator implements Responsable
                 }
 
                 if (!$this->applyRule($ruleName, $value, $ruleValue)) {
-                    $this->addError($field, $this->errorMessage($field, $ruleName, $ruleValue));
+                    $this->addError(
+                        $field,
+                        $this->errorMessage(
+                            $field,
+                            $ruleName,
+                            $ruleValue
+                        )
+                    );
                 }
             }
         }
 
         if (!$this->passes()) {
-            return $this->sendResponse(ResultStatus::FAILED, $this->getErrors(), $data);
+            return $this->sendResponse(
+                ResultStatus::FAILED,
+                $this->getErrors(),
+                $data
+            );
         };
-        return $this->sendResponse(status: ResultStatus::SUCCESS, responseData: $data);
+        return $this->sendResponse(
+            status: ResultStatus::SUCCESS,
+            responseData: $data
+        );
     }
 }

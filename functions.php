@@ -4,9 +4,8 @@ use Config\Config;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Request\Request as RequestRequest;
 use Core\Response;
-
+use Core\Response\RedirectResponse;
 use Core\Session\Session;
-use HTTP\RedirectResponse;
 
 function dd(mixed  $value)
 {

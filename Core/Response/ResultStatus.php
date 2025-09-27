@@ -2,7 +2,7 @@
 
 namespace Core\Response;
 
-enum ResultStatus{
-    case FAILED;
-    case SUCCESS;
+enum ResultStatus: string{
+    case FAILED = "false";
+    case SUCCESS = "true";
 }

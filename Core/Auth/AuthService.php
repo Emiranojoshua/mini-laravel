@@ -21,7 +21,7 @@ final class AuthService implements AuthInterface
         $this->connection = $this->connection ?? Database::getConnection();
     }
 
-    public function login(array $credentials): ?array
+    public function login(array $credentials): ?UserEntity
     {
         if (empty($credentials)) {
             return $this->sendResponse(
@@ -88,18 +88,13 @@ final class AuthService implements AuthInterface
 
         // Store minimal user data in session
         session_regenerate_id(true);
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-            'email' => $user['email'],
-        ];
-        // return $_SESSION['user'] = new UserEntity($user['id'], $user['email']);
-
-        // Prevent session fixation
+        $loginedUser = new UserEntity($user['id'], $user['email']);
+        $_SESSION['user'] = $loginedUser;
 
         // return true;
         return $this->sendResponse(
             ResultStatus::SUCCESS,
-            responseData: new UserEntity($user['id'], $user['email']),
+            responseData: $loginedUser,
         );
     }
     public function logout(): void

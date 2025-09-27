@@ -43,6 +43,8 @@ final class HomeController
       return view('login');
     };
 
+    return view("welcome");
+
     // return redirect();
   }
   public function store() {}

@@ -6,7 +6,7 @@ use Core\Exception\Foundation\BaseException;
 use Core\Request\Request;
 use Core\Response;
 use Core\Route;
-
+use Core\Session\Session;
 
 class App
 {

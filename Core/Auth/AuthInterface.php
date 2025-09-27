@@ -2,11 +2,12 @@
 
 namespace Core\Auth;
 
+use Core\Models\DTOs\UserEntity;
 use Core\Response\Responsable;
 
 interface AuthInterface extends Responsable
 {
-    public function login(array $credentials): ?array;
+    public function login(array $credentials): ?UserEntity;
 
     public function logout(): void;
 

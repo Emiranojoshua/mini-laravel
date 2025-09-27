@@ -15,13 +15,17 @@ trait ResponseComponent
         "responseData" => []
     ];
 
-    public function sendResponse(ResultStatus $status, array $errors = [], array $formData = [], $responseData = null)
-    {
+    public function sendResponse(
+        ResultStatus $status,
+        array $errors = [],
+        array $formData = [],
+        $responseData = null
+    ) {
         $this->response['status'] = $status;
         $this->response['errors'] = $errors;
         $this->response['formData'] = $formData;
         $this->response['responseData'] = $responseData;
-        if ($responseData == null || $responseData === null) {
+        if($status == ResultStatus::FAILED){
             return null;
         }
         return $responseData;
@@ -40,5 +44,4 @@ trait ResponseComponent
             Response::METHOD_NOT_ALLOWED
         );
     }
-    
 }
