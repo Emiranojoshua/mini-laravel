@@ -1,14 +1,12 @@
-<?php 
+<?php
 
 namespace Core\Auth;
 
-use Database;
+use Core\Response\Responsable;
 
-interface AuthInterface
+interface AuthInterface extends Responsable
 {
-
-   
-    public function login(array $credentials): bool;
+    public function login(array $credentials): ?array;
 
     public function logout(): void;
 

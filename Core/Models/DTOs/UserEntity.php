@@ -7,15 +7,16 @@ class UserEntity
     public function __construct(
         public int $id,
         public string $email,
-        public string $created_at,
-    ) {}
+    ) {
+        //encrypt user details later
+    }
 
     public function toArray(): array
     {
+        //decreypt userdetails before returning array
         return [
             'id' => $this->id,
             'email' => $this->email,
-            'created_at' => $this->created_at,
         ];
     }
 }

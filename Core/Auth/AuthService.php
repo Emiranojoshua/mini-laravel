@@ -3,12 +3,14 @@
 namespace Core\Auth;
 
 use Core\Connection\Database;
-use Core\Exception\AuthException\EmptyCredentialsAuthException;
-use Core\Exception\AuthException\UserNotFoundAuthException;
-use Core\Response;
+use Core\Models\DTOs\UserEntity;
+use Core\Response\ResponseComponent;
+use Core\Response\ResultStatus;
 
 final class AuthService implements AuthInterface
 {
+
+    use ResponseComponent;
 
     private ?Database $connection = null;
 
@@ -16,36 +18,51 @@ final class AuthService implements AuthInterface
     public function __construct()
     {
 
-        $this->connection ?? $this->connection = Database::getConnection();
+        $this->connection = $this->connection ?? Database::getConnection();
     }
 
-    public function login(array $credentials): bool
+    public function login(array $credentials): ?array
     {
         if (empty($credentials)) {
-            throw EmptyCredentialsAuthException::throwException(
-                "Empty credentials provided",
-                Response::BAD_REQUEST
+            return $this->sendResponse(
+                ResultStatus::FAILED,
+                [
+                    "email" => "email is required",
+                    "password" => "password is required",
+                    "generic" => "empty form fields",
+                ],
+                $credentials
             );
         }
-        $email    = trim($credentials['email'] ?? '');
+        $email = trim($credentials['email'] ?? '');
         $password = $credentials['password'] ?? '';
 
         if ($email === '' || $password === '') {
-            throw EmptyCredentialsAuthException::throwException(
-                "Empty credentials provided",
-                Response::BAD_REQUEST
+            return $this->sendResponse(
+                ResultStatus::FAILED,
+                [
+                    "email" => "email is required",
+                    "password" => "password is required",
+                    "generic" => "empty form fields",
+                ],
+                $credentials
             );
         }
 
-        //fetch user from database 
+        //fetch user from database
         $query = "SELECT id, email, password FROM users WHERE email = :email LIMIT 1";
         $stmt = $this->connection->query($query, ["email" => $email]);
         $user = $stmt->fetch();
 
         if (!$user) {
-            throw UserNotFoundAuthException::throwException(
-                "User not found",
-                Response::BAD_REQUEST
+            return $this->sendResponse(
+                ResultStatus::FAILED,
+                [
+                    "email" => "user not found",
+                    "password" => "user not found",
+                    "generic" => "user not found",
+                ],
+                $credentials
             );
         }
 
@@ -55,21 +72,35 @@ final class AuthService implements AuthInterface
         if (!password_verify($password, $user['password'])) {
             //send user back to login page
             //fill the session with an error message
-            session_flash(["Invalid credentials provided"]);
-            redirect(statusCode: Response::REDIRECT)->back();
-            return false;
+            // session_flash(["Invalid credentials provided"]);
+            // redirect(statusCode: Response::REDIRECT)->back();
+            // return false;
+            return $this->sendResponse(
+                ResultStatus::FAILED,
+                [
+                    "email" => "Invalid user credentials",
+                    "password" => "Invalid user credentials",
+                    "generic" => "Invalid user credentials",
+                ],
+                $credentials
+            );
         }
 
         // Store minimal user data in session
+        session_regenerate_id(true);
         $_SESSION['user'] = [
-            'id'    => $user['id'],
+            'id' => $user['id'],
             'email' => $user['email'],
         ];
+        // return $_SESSION['user'] = new UserEntity($user['id'], $user['email']);
 
         // Prevent session fixation
-        session_regenerate_id(true);
 
-        return true;
+        // return true;
+        return $this->sendResponse(
+            ResultStatus::SUCCESS,
+            responseData: new UserEntity($user['id'], $user['email']),
+        );
     }
     public function logout(): void
     {

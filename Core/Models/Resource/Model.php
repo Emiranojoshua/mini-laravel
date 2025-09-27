@@ -2,10 +2,9 @@
 
 namespace Core\Models\Resource;
 
-use Core\Components\ResponseComponent;
+use Core\Response\ResponseComponent;
 use Core\Connection\Database;
-use Core\Models\DTOs\UserEntity;
-use Core\Response;
+use Core\Response\ResultStatus;
 use ReflectionClass;
 
 abstract class Model
@@ -26,27 +25,33 @@ abstract class Model
         $this->connection ?? $this->connection = Database::getConnection();
 
         if (!$this->table) {
-            $className = strtolower((new ReflectionClass($this)->getShortName()));
+            $className = strtolower(new ReflectionClass($this)->getShortName());
             $this->table = "{$className}s";
         }
     }
 
 
-    public function create(array $data): ?UserEntity
+    public function create(array $data): ?array
     {
-
         $existingUser = $this->findBy('email', [$data['email'] ?? '']);
-        if ($existingUser) {
-            // dd(["email" => "ser already exists"]);
-            //returning more than one value
-            // session_flash(['email' => ["acccount already exist"]]);
+        // dd("testing");
+        // if($existingUser){
+        //     dc($existingUser);
+        //     dd("user exist");
+        // }
+        // dc($existingUser);
+        // dd("user does not exist");
 
-            // session_old($data);
-            // redirect(statusCode: Response::REDIRECT)->back();
-            $this->response['status'] = "failed";
-            $this->response['errors'] = ['email' => ["acccount already exist"]];
-            $this->response['data'] = $data;
-            return null;
+        if ($existingUser) {
+            return $this->sendResponse(
+                ResultStatus::FAILED,
+                [
+                    //remove and leave only generic errors
+                    'email' => "acccount already exist",
+                    'generic' => "account already exist"
+                ],
+                $data
+            );
         }
 
         if (isset($data['password'])) {
@@ -67,7 +72,7 @@ abstract class Model
         $placeholders = array_map(fn($col) => ":$col", $columns);
 
 
-        $sql = "INSERT INTO {$this->table} (" . implode(', ', $columns) . ") 
+        $sql = "INSERT INTO {$this->table} (" . implode(', ', $columns) . ")
                 VALUES (" . implode(', ', $placeholders) . ")";
 
         $this->connection->query($sql, $filteredData);
@@ -78,23 +83,19 @@ abstract class Model
         $userData = $this->findBy('email', [$email]);
 
         if (!empty($userData)) {
-            $this->response['status'] = 'success';
-            // $this->response['data'] = $userData;
-            return new UserEntity($userData['id'], $userData['email'], $userData['created_at']);
-            // return $userData;
+            return $this->sendResponse(
+                status: ResultStatus::SUCCESS,
+                responseData: $data,
+            );
         } else {
-            // session_flash(["email" => "ser already exists"]);
-            // session_old($data);
-            // redirect(statusCode: Response::REDIRECT)->back();
-            // exit;
 
-            $this->response['status'] = "failed";
-            $this->response['errors'] = ['email' => ["something went wrong"]];
-            $this->response['data'] = $data;
-            return null;
+            return $this->sendResponse(
+                ResultStatus::FAILED,
+                ['email' => ["Something went wrong"]],
+                $data
+            );
         }
     }
-
 
     public function findBy($field, array $value)
     {

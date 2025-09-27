@@ -4,7 +4,6 @@ namespace Core\Routing;
 
 use Core\Middleware;
 //duplicate function call change
-use Core\Request\Request as RequestRequest;
 
 abstract class Request
 {

@@ -71,7 +71,7 @@
 
 
 
-namespace HTTP;
+namespace Core\Response;
 
 use Core\Request\Request;
 use Core\Response;

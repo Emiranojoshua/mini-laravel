@@ -2,12 +2,15 @@
 
 namespace Core\Auth;
 
-class Auth implements AuthInterface
+use Core\Models\DTOs\UserEntity;
+
+//needs to implement authinterface for louse coupling 
+class Auth 
 {
 
-    public function __construct(private AuthService $authProvider) {}
+    public function __construct(private AuthInterface $authProvider) {}
 
-    public function login(array $user): bool
+    public function login(array $user): ?array
     {
         // return $authProvider->
         return $this->authProvider->login($user);

@@ -2,25 +2,18 @@
 
 namespace Core\Validation;
 
-use Core\Components\ResponseComponent;
+use Core\Response\Responsable;
+use Core\Response\ResponseComponent;
+use Core\Response\ResultStatus;
 
 /**
  * @method array all()
  */
 
-abstract class Validator
+abstract class Validator implements Responsable
 {
     use BaseValidator;
     use ResponseComponent;
-
-    // public function __construct(
-    //     protected array $rules,
-    //     protected array $data
-    // ) {
-    //     $this->validator();
-    // }
-
-
 
     public function validate(array $rules): ?array
     {
@@ -47,29 +40,8 @@ abstract class Validator
         }
 
         if (!$this->passes()) {
-
-            $this->response['status'] = "failed";
-            $this->response['errors'] = $this->getErrors();
-            $this->response['data'] = $data;
-
-            return null;
-
-            // session_flash($this->getErrors());
-            // session_old($data);
-            // view('/login');
-            // exit();
-            // header("Location: /login");
-            // exit();
-            // redirect(statusCode: Response::REDIRECT)->back();
-            // exit;
-            // $request = Request::getRequest();
-
-            // back();
+            return $this->sendResponse(ResultStatus::FAILED, $this->getErrors(), $data);
         };
-
-        $this->response['status'] = "failed";
-        return $data;
-
-        // return $data;
+        return $this->sendResponse(status: ResultStatus::SUCCESS, responseData: $data);
     }
 }
