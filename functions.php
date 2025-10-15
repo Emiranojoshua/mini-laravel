@@ -94,20 +94,17 @@ function session_old(array $value): void
     Session::session_old($value);
 }
 
+function session_add(string $key, mixed $value){
+    Session::put($key, $value);
+}
+
+function session_get(string $key, bool $all = false): mixed{
+    return Session::get($key, $all);
+}
+
 
 function errors($key,  bool $handle = false)
 {
-
-    // $eror = errors('email');
-    //         foreach ($email as $value) {
-    //             # code...
-    //             echo $value;
-    //         }
-    // return [
-    //     "email not registered",
-    //     "something went wrong",
-    //     "3 reading wrong",
-    // ];
     $error =  getSession($key, true);
 
     if ($handle || is_string($error)) {
@@ -121,6 +118,7 @@ function errors($key,  bool $handle = false)
 
 function old($key, $default = '')
 {
+    
     return getSession('_old')[$key] ?? $default;
 }
 

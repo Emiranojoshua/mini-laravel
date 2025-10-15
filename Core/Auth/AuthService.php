@@ -89,8 +89,7 @@ final class AuthService implements AuthInterface
         // Store minimal user data in session
         session_regenerate_id(true);
         $loginedUser = new UserEntity($user['id'], $user['email']);
-        $_SESSION['user'] = $loginedUser;
-
+        session_add("user", $loginedUser);
         // return true;
         return $this->sendResponse(
             ResultStatus::SUCCESS,
@@ -103,6 +102,10 @@ final class AuthService implements AuthInterface
     }
     public function user(): ?array
     {
+        $user = session_get("user");
+
+        dd($user);
+
         return ["someting something"];
     }
     public function verify(): bool

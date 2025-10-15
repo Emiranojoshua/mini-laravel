@@ -2,31 +2,22 @@
 
 namespace Core\Session;
 
+use Core\Exception\ArgumentException\InvalidArgumentException;
+use Core\Response;
 
 class Session
 {
-
-
-    public static function put($key, $value)
+    public static function put(string $key, mixed $value)
     {
         $_SESSION[$key] = $value;
-
-        // $_SESSION['auth'] = [
-        //     'user' => [
-        //         'email' => 'emiranojoshua@gmail.com',
-        //         'password' => 'password',
-        //     ],
-
-        // ];
     }
 
     public static function session_old(array $data): void
     {
         foreach ($data as $key => $value) {
             if ($key == "password") {
-                break;
+                continue;
             }
-            true ? "" : "";
             $_SESSION['_old'][$key] = $value;
         }
         return;
@@ -57,20 +48,15 @@ class Session
         return;
     }
 
-    public static function get($key, bool $all = false): mixed
+    public static function get(string $key, bool $all = false): mixed
     {
+        // return "this was returned";
         if ($all) {
             return $_SESSION['_flash'][$key] ?? $_SESSION[$key] ?? "";
         }
         //inclusive of array and not just value returned from array
         return $_SESSION['_flash'][$key][0] ?? $_SESSION[$key] ?? "";
     }
-
-
-    // public static function old($key): mixed
-    // {
-    //     return $_SESSION['_flash'][$key][0] ?? "";
-    // }
 
     public static function destroy()
     {

@@ -8,7 +8,7 @@ use Core\Exception\RouterException\RouterRuntimeException;
 use Core\Middleware\MiddlewareHandler;
 use Core\Response;
 
-class Dispatch
+final class Dispatch
 {
     public static function dispatch(array $request, array $routes)
     {

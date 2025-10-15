@@ -2,7 +2,6 @@
 
 namespace HTTP\Controllers;
 
-use Core\Auth\Auth;
 use Core\Auth\AuthService;
 use Core\Models\User;
 use Core\Request\Request;

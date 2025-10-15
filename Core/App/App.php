@@ -6,9 +6,9 @@ use Core\Exception\Foundation\BaseException;
 use Core\Request\Request;
 use Core\Response;
 use Core\Route;
-use Core\Session\Session;
+use Core\Services\DDOS;
 
-class App
+class App extends DDOS
 {
 
     private static $instance = null;
