@@ -2,12 +2,12 @@
 
 namespace Core\Middleware;
 
-use Core\Auth\AuthInterface;
 use Core\Exception\AuthException\AuthException;
 use Core\Middleware;
+use Core\Models\User;
 use Core\Response;
 
-final class MiddlewareHandler
+final class MiddlewareHandler extends User
 {
     // public Middleware $middleware;
 
@@ -15,6 +15,11 @@ final class MiddlewareHandler
         public Middleware $middleware,
         // private AuthInterface $authProvider
     ) {}
+
+    public function User()
+    {
+        return $this->getUser();
+    }
 
     public function handle()
     {
@@ -36,6 +41,7 @@ final class MiddlewareHandler
 
     private function Auth(Middleware $middleware)
     {
+        dd($this->User());
         // $this->authProvider->user();
         return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
     }

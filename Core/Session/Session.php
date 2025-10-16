@@ -52,10 +52,10 @@ class Session
     {
         // return "this was returned";
         if ($all) {
-            return $_SESSION['_flash'][$key] ?? $_SESSION[$key] ?? "";
+            return $_SESSION['_flash'][$key] ?? $_SESSION[$key] ?? null;
         }
         //inclusive of array and not just value returned from array
-        return $_SESSION['_flash'][$key][0] ?? $_SESSION[$key] ?? "";
+        return $_SESSION['_flash'][$key][0] ?? $_SESSION[$key] ?? null;
     }
 
     public static function destroy()

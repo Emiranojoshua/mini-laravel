@@ -110,6 +110,9 @@ function errors($key,  bool $handle = false)
     if ($handle || is_string($error)) {
         return $error;
     }
+    if($error ==  null){
+        return;
+    }
 
     foreach ($error as $value) {
         echo $value . "..  ";

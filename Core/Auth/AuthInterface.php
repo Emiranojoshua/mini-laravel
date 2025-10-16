@@ -11,7 +11,7 @@ interface AuthInterface extends Responsable
 
     public function logout(): void;
 
-    public function user(): ?array;
+    public function user(): ?UserEntity;
 
     /** Returns true if the current request is authenticated. */
     public function verify(): bool;

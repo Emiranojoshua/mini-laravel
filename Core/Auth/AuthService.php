@@ -100,13 +100,16 @@ final class AuthService implements AuthInterface
     {
         // return "someting something";
     }
-    public function user(): ?array
+    public function user(): ?UserEntity
     {
         $user = session_get("user");
 
-        dd($user);
+        // dd($user);
+        if($user == null){
+            dd("user is null and not logged in");
+        }
 
-        return ["someting something"];
+        return $user;
     }
     public function verify(): bool
     {
