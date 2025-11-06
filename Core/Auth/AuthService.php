@@ -106,7 +106,7 @@ final class AuthService implements AuthInterface
 
         // dd($user);
         if($user == null){
-            dd("user is null and not logged in");
+            return null;
         }
 
         return $user;

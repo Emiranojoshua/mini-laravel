@@ -3,7 +3,9 @@
 namespace Core\Middleware;
 
 use Core\Exception\AuthException\AuthException;
+use Core\Exception\ServerException\RequestErrorException;
 use Core\Middleware;
+use Core\Models\DTOs\UserEntity;
 use Core\Models\User;
 use Core\Response;
 
@@ -27,6 +29,7 @@ final class MiddlewareHandler extends User
             case Middleware::GUEST:
                 # code...
                 // check if user is signed and return auth if....
+                $this->Guest($this->middleware);
                 break;
 
             case Middleware::AUTH:
@@ -34,17 +37,25 @@ final class MiddlewareHandler extends User
                 break;
 
             default:
-                # code...
+                $this->Default($this->middleware);
+                // RequestErrorException::throwException("Invalid request", Response::BAD_REQUEST);
                 break;
         }
     }
 
     private function Auth(Middleware $middleware)
     {
-        dd($this->User());
-        // $this->authProvider->user();
-        return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
+        if ($this->User() == null) {
+            return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
+        }
     }
 
-    private function Guest(Middleware $middleware) {}
+    private function Guest(Middleware $middleware)
+    {
+        if ($this->User() != null) {
+            return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
+        }
+    }
+
+    private function Default(Middleware $middleware) {}
 }
