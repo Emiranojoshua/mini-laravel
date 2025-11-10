@@ -31,7 +31,7 @@ Route::post('/post', function () {
 Route::get(
     '/login',
     [HomeController::class, 'index']
-)->middleware(Middleware::DEFAULT);
+)->middleware(Middleware::GUEST);
 
 Route::post(
     '/login',

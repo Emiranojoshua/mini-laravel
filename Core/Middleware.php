@@ -7,5 +7,5 @@ enum Middleware: string
     case AUTH = "AUTH";
     case GUEST = "GUEST";
 
-    case DEFAULT = '';
+    // case DEFAULT = "AUTH";
 }

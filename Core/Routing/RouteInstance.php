@@ -10,7 +10,7 @@ class RouteInstance
         public string $uri,
         public $controller,
         public string $method = 'get',
-        public Middleware $middleware = Middleware::DEFAULT,
+        public Middleware $middleware = Middleware::AUTH,
     ) {}
 }
 
