@@ -21,7 +21,7 @@ Mini Laravel is a lightweight PHP framework for building web applications quickl
 1. **Clone or download** the Mini Laravel repository:
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Emiranojoshua/mini-laravel.git
 cd mini-laravel
 ```
 
