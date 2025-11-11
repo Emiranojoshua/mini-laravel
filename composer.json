@@ -12,8 +12,7 @@
   "autoload": {
     "psr-4": {
       "Core\\": "Core/",
-      "HTTP\\": "HTTP/",
-      "Config\\": "Config/"
+      "HTTP\\": "HTTP/"
     }
   }
 }

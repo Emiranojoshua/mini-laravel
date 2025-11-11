@@ -45,15 +45,16 @@ final class MiddlewareHandler extends User
 
     private function Auth(Middleware $middleware)
     {
-        
-        if ($this->User() == null) {
+        dd($middleware);
+        if ($this->User() ==- null) {
             return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
         }
     }
 
     private function Guest(Middleware $middleware)
     {
-            if ($this->User() != null) {
+        // dd($this->user());
+            if ($this->User() !== null) {
             return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
         }
     }
