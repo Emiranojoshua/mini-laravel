@@ -141,14 +141,14 @@ function flashAll()
     return Session::flashAll();
 }
 
-function env(string $key): string
-{
+// function env(string $key): string
+// {
 
-    return Config::database()['database']['mysql'][$key] ?? throw NotFoundException::throwException(
-        "Config key:$key not found",
-        Response::NOT_FOUND
-    );
-}
+//     return Config::database()['database']['mysql'][$key] ?? throw NotFoundException::throwException(
+//         "Config key:$key not found",
+//         Response::NOT_FOUND
+//     );
+// }
 
 function status_code(Response $response_code)
 {

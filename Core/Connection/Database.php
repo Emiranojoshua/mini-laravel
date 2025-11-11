@@ -24,9 +24,9 @@ class Database
     public function __construct()
     {
 
-        $this->username = env('username');
-        $this->password = env('password');
-        $this->dsn = "mysql:host=" . env('host') . ";dbname=" . env('database');
+        $this->username = $_ENV["DB_USERNAME"];
+        $this->password = $_ENV["DB_PASSWORD"];
+        $this->dsn = "mysql:host=" . $_ENV["DB_HOST"]. ";dbname=" . $_ENV["DB_DATABASE"];
         $this->options = [];
 
         // dd($this->options);
