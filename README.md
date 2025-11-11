@@ -81,10 +81,10 @@ CREATE TABLE `emirano`.`users` (
 Once installed and configured:
 
 ```bash
-php -S localhost:8000 -t public
+php -S localhost:<your_port_number> -t public
 ```
 
-Visit [http://localhost:8000](http://localhost:8000) in your browser to see your application.
+Visit [http://localhost:8000](http://localhost:<your_port_number>) in your browser to see your application.
 
 ---
 
