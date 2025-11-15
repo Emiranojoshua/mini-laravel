@@ -2,21 +2,30 @@
 
 namespace Core\Middleware;
 
+use Core\Container\Container;
 use Core\Exception\AuthException\AuthException;
 use Core\Exception\ServerException\RequestErrorException;
 use Core\Middleware;
 use Core\Models\DTOs\UserEntity;
 use Core\Models\User;
 use Core\Response;
+use PDO;
 
 final class MiddlewareHandler extends User
 {
-    // public Middleware $middleware;
+
+    private $authservice;
 
     public function __construct(
         public Middleware $middleware,
         // private AuthInterface $authProvider
-    ) {}
+    ) {
+        // $this->authservice = Container::get(AuthService::class);
+    }
+
+    public function init(){
+    // $this->middleware = $middleware = new Middleware();
+    }
 
     public function User()
     {
@@ -25,6 +34,7 @@ final class MiddlewareHandler extends User
 
     public function handle()
     {
+        // dd($this->User());
         switch ($this->middleware) {
             case Middleware::GUEST:
                 # code...

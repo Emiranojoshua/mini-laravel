@@ -2,6 +2,9 @@
 
 namespace Core\App;
 
+use Core\Connection\Connection;
+use Core\Container\Container;
+use Core\Container\Provider;
 use Core\Exception\Foundation\BaseException;
 use Core\Request\Request;
 use Core\Response;
@@ -51,6 +54,10 @@ class App extends DDOS
     public function run()
     {
         try {
+            $container = new Provider(Container::load());
+
+            dd($container->resolve("testing"));
+
             Route::route();
         } catch (BaseException $e) {
             // dd($e);

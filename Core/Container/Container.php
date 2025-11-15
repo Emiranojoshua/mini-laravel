@@ -8,6 +8,7 @@ use Exception;
 class Container
 {
     private static $instance = null;
+    private static $containerInstance = null;
 
     public static function __callStatic($method,  $args)
     {
@@ -19,7 +20,7 @@ class Container
             throw new Exception("resolver required 1 argument " . count($args) . " passed");
         }
 
-        
+
 
         if (count($args) > 1) {
             # code...
@@ -34,5 +35,13 @@ class Container
         //$method -> method call from container class
         // $args -> parameters for the methods in the container class
 
+    }
+
+    public static function load()
+    {
+        if (self::$containerInstance == null) {
+            self::$containerInstance = new ContainerHandler;
+        }
+        return self::$containerInstance;
     }
 }
