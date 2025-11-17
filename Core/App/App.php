@@ -6,10 +6,12 @@ use Core\Connection\Connection;
 use Core\Container\Container;
 use Core\Container\Provider;
 use Core\Exception\Foundation\BaseException;
+use Core\Models\User;
 use Core\Request\Request;
 use Core\Response;
 use Core\Route;
 use Core\Services\DDOS;
+use HTTP\Controllers\WelcomeController;
 
 class App extends DDOS
 {
@@ -54,11 +56,12 @@ class App extends DDOS
     public function run()
     {
         try {
-            $container = new Provider(Container::load());
-
-            dd($container->resolve("testing"));
-
-            Route::route();
+            $something = Provider::boot();
+            $some = $something->call(WelcomeController::class, 'create');
+            dd($some);
+            // $testing = $something->call(WelcomeController::class, "create");
+            // dd($testing);
+                    Route::route();
         } catch (BaseException $e) {
             // dd($e);
             // dd($e->);

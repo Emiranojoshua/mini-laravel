@@ -3,6 +3,7 @@
 namespace HTTP\Controllers;
 
 use Core\Auth\Auth;
+use Core\Auth\AuthService;
 use Core\Models\User;
 use Core\Request\Request;
 
@@ -12,7 +13,7 @@ final class WelcomeController
   {
     return view("welcome");
   }
-  public function create(Request $request, Auth $auth, User $userModel): void
+  public function create(Request $request, AuthService $auth, User $userModel): void
   {
   }
   public function store() {}

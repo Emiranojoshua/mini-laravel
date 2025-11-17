@@ -2,8 +2,8 @@
 
 namespace Core\Models\Resource;
 
+use Core\Connection\Connection;
 use Core\Response\ResponseComponent;
-use Core\Connection\Database;
 use Core\Response\ResultStatus;
 use ReflectionClass;
 
@@ -17,12 +17,12 @@ abstract class Model
     protected array $fillable = [];
     protected $primaryKey = 'id';
 
-    private ?Database $connection = null;
+    private ?Connection $connection = null;
 
     public function __construct()
     {
 
-        $this->connection ?? $this->connection = Database::getConnection();
+        $this->connection ?? $this->connection = Connection::getConnection();
 
         if (!$this->table) {
             $className = strtolower(new ReflectionClass($this)->getShortName());
