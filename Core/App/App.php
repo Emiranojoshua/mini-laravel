@@ -59,8 +59,6 @@ class App extends DDOS
             $something = Provider::boot();
             $some = $something->call(WelcomeController::class, 'create');
             dd($some);
-            // $testing = $something->call(WelcomeController::class, "create");
-            // dd($testing);
                     Route::route();
         } catch (BaseException $e) {
             // dd($e);
