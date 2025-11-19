@@ -3,6 +3,7 @@
 namespace Core\Models\Resource;
 
 use Core\Connection\Connection;
+use Core\Container\Container;
 use Core\Response\ResponseComponent;
 use Core\Response\ResultStatus;
 use ReflectionClass;
@@ -21,8 +22,10 @@ abstract class Model
 
     public function __construct()
     {
+        $container = Container::boot();
 
-        $this->connection ?? $this->connection = Connection::getConnection();
+
+        $this->connection ?? $this->connection = $container->resolve(Connection::class);
 
         if (!$this->table) {
             $className = strtolower(new ReflectionClass($this)->getShortName());

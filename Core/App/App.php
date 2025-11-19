@@ -47,6 +47,9 @@ class App extends DDOS
 
             // load routes AFTER provider
             require BASE_PATH . '/../routes/web.php';
+            // dd(Route::getRoutes());
+
+
 
             // dd("routing");
 

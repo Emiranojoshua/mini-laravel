@@ -8,8 +8,9 @@ abstract class ServiceProvider
 
     protected ContainerHandler $container;
 
-    final function __construct(ContainerHandler $container)
+    final public function __construct(ContainerHandler $container)
     {
+
         $this->container = $container;
         $this->register();
     }

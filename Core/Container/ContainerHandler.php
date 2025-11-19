@@ -7,6 +7,7 @@ use Core\Exception\ContainerException\ClassNotFoundException;
 use Core\Exception\ContainerException\InvalidContainerParameterException;
 use Core\Exception\ContainerException\ReflectorInstantiableException;
 use Core\Response;
+use HTTP\Controllers\HomeController;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -100,11 +101,11 @@ class ContainerHandler
         return $reflector->newInstanceArgs($dependencies);
     }
 
-    public function call(object|string $objectOrClass, string $method, array $provided = [])
+    public function resolveMethodDependencies(object|string $objectOrClass, string $method, array $provided = [])
     {
+
         $object = is_object($objectOrClass) ? $objectOrClass : $this->resolve($objectOrClass);
-        // dd($method);
-        // dd(is_object($objectOrClass));
+
 
         if (!method_exists($object, $method)) {
             throw ClassNotFoundException::throwException(
@@ -112,6 +113,7 @@ class ContainerHandler
                 Response::BAD_REQUEST
             );
         }
+
         $reflector = new ReflectionMethod($object, method: $method);
         $parameters = $reflector->getParameters();
         $dependencies = [];
@@ -121,7 +123,7 @@ class ContainerHandler
             $type = $parameter->getType();
 
             if (\array_key_exists($paramName, $provided)) {
-                
+
                 $dependencies[] = $provided[$paramName];
                 continue;
             }
@@ -153,11 +155,14 @@ class ContainerHandler
                 "Method {$method} does not exist on " . get_class($object),
                 Response::BAD_REQUEST
             );
-
-            
         }
-        dd("returned from call");
         return $dependencies;
-        return $reflector->invokeArgs($object, $dependencies);
+    }
+    public function call(object|string $objectOrClass, string $method, array $provided = [])
+    {
+        $dependencies = $this->resolveMethodDependencies($objectOrClass, $method, $provided);
+        $object = is_object($objectOrClass) ? $objectOrClass : $this->resolve($objectOrClass);
+
+        return (new ReflectionMethod($object, $method))->invokeArgs($object, $dependencies);
     }
 }

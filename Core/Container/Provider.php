@@ -11,7 +11,7 @@ class Provider extends ServiceProvider
     protected function register()
     {
         //register services here
-        $this->container->singleton("conn", Connection::class);
+        $this->container->singleton(Connection::class, Connection::class);
         $this->container->singleton(
             Router::class,
             Router::class

@@ -41,10 +41,10 @@ Route::post(
 
 
 //creting a welcome controller to disiplay a single page
-//just returning the view 
-Route::get('/welcome', function(){
-   return view("welcome");
-})->Middleware(Middleware::GUEST);
+// //just returning the view 
+// Route::get('/welcome', function(){
+//    return view("welcome");
+// })->Middleware(Middleware::GUEST);
 
 Route::get(
     '/welcome',

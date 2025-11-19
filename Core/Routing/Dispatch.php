@@ -27,7 +27,7 @@ final class Dispatch
                 return static::dispatchRoute($route->controller);
             }
         }
-       
+
         return throw NotFoundException::throwException(
             "The Requested Page $url does not exist or wasn't found...",
             Response::NOT_FOUND
@@ -36,7 +36,6 @@ final class Dispatch
 
     public static function dispatchRoute(array | callable $controller)
     {
-
         if (is_array($controller) && count($controller) === 2) {
             return self::dispatchController($controller);
         }
@@ -56,14 +55,13 @@ final class Dispatch
     {
 
         // echo view('home');
-       
+
         echo call_user_func($controller);
         return;
     }
 
     public static function dispatchController(array $controller)
     {
-        dd($controller);
         [$controller, $method] = $controller;
         if (!class_exists($controller)) {
 
@@ -79,14 +77,8 @@ final class Dispatch
             );
         }
 
-        //no need of making rsolve class static 
-        //refactor
-        $container = Container::boot();
-        dd($controller);
-        $dependencies = $container->call($controller, $method);
-        dd($dependencies);
-        return (new $controller())->$method(...$dependencies);
 
-        // return  $instance->$method();
+        $container = Container::boot();
+        $container->call($controller, $method);
     }
 }

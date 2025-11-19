@@ -4,6 +4,7 @@ namespace Core\Auth;
 
 use Core\Connection\Connection;
 use Core\Connection\Database;
+use Core\Container\Container;
 use Core\Models\DTOs\UserEntity;
 use Core\Response\ResponseComponent;
 use Core\Response\ResultStatus;
@@ -18,8 +19,8 @@ final class AuthService implements AuthInterface
 
     public function __construct()
     {
-
-        $this->connection = $this->connection ?? Connection::getConnection();
+        $container = Container::boot();
+        $this->connection = $container->resolve(Connection::class);
     }
 
     public function login(array $credentials): ?UserEntity

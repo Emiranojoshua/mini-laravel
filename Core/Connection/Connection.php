@@ -55,13 +55,4 @@ class Connection
             throw DatabaseException::throwException($e->getMessage(), Response::INTERNAL_SERVER_ERROR);
         }
     }
-
-    public static function getConnection()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }   
 }
