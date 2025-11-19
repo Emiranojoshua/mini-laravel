@@ -8,9 +8,9 @@ abstract class ServiceProvider
 
     protected ContainerHandler $container;
 
-    final public function __construct()
+    final function __construct(ContainerHandler $container)
     {
-        $this->container = Container::load();
+        $this->container = $container;
         $this->register();
     }
 
@@ -21,14 +21,6 @@ abstract class ServiceProvider
         return $this->container->resolve($abstract);
     }
 
-    public static function boot(){
-        if(static::$instance === null) {
-            static::$instance = new static();
-         }
-        
-        return static::$instance;
-    }
-    
     public function call(object|string $objectOrClass, string $method, array $provided = []){
         return $this->container->call($objectOrClass, $method, $provided);
     }

@@ -2,46 +2,18 @@
 
 namespace Core\Container;
 
-use Core\Connection\Connection;
-use Exception;
-
 class Container
 {
-    private static $instance = null;
-    private static $containerInstance = null;
+    private static ?ContainerHandler $instance = null;
 
-    public static function __callStatic($method,  $args)
+    final private function __construct() {}
+
+    public static function boot(): ContainerHandler
     {
-        if (self::$instance == null) {
+        if (!self::$instance) {
             self::$instance = new ContainerHandler;
         }
-        // dd($args);
-        if (count($args) > 2) {
-            throw new Exception("resolver required 1 argument " . count($args) . " passed");
-        }
 
-
-
-        if (count($args) > 1) {
-            # code...
-            [$class, $classMethod] = $args;
-            return self::$instance->$method($class, $classMethod);
-        } else {
-            [$class] = $args;
-            return self::$instance->$method($class);
-        }
-
-        //usage 
-        //$method -> method call from container class
-        // $args -> parameters for the methods in the container class
-
-    }
-
-    public static function load()
-    {
-        if (self::$containerInstance == null) {
-            self::$containerInstance = new ContainerHandler;
-        }
-        return self::$containerInstance;
+        return self::$instance;
     }
 }

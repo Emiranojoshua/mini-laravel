@@ -44,9 +44,9 @@ Route::post(
 //just returning the view 
 Route::get('/welcome', function(){
    return view("welcome");
-})->Middleware(Middleware::AUTH);
+})->Middleware(Middleware::GUEST);
 
 Route::get(
     '/welcome',
     [HomeController::class, 'create']
-)->middleware(Middleware::AUTH);
+)->middleware(Middleware::GUEST);

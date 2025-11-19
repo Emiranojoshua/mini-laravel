@@ -23,8 +23,9 @@ final class MiddlewareHandler extends User
         // $this->authservice = Container::get(AuthService::class);
     }
 
-    public function init(){
-    // $this->middleware = $middleware = new Middleware();
+    public function init()
+    {
+        // $this->middleware = $middleware = new Middleware();
     }
 
     public function User()
@@ -55,8 +56,7 @@ final class MiddlewareHandler extends User
 
     private function Auth(Middleware $middleware)
     {
-        dd($middleware);
-        if ($this->User() ==- null) {
+        if ($this->User() == -null) {
             return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
         }
     }
@@ -64,7 +64,7 @@ final class MiddlewareHandler extends User
     private function Guest(Middleware $middleware)
     {
         // dd($this->user());
-            if ($this->User() !== null) {
+        if ($this->User() !== null) {
             return throw AuthException::ThrowException(errorCode: Response::UNAUTHORIZED, errorMessage: 'Your not authorized to view this page....');
         }
     }

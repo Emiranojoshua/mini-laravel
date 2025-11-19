@@ -10,6 +10,7 @@ use Core\Models\User;
 use Core\Request\Request;
 use Core\Response;
 use Core\Route;
+use Core\Routing\Router;
 use Core\Services\DDOS;
 use HTTP\Controllers\WelcomeController;
 
@@ -22,25 +23,7 @@ class App extends DDOS
     {
 
         session_start();
-
-        //protect against DDOS attack here
-
-
-
-
-
-
-        // dd(Request::getRequest());
-        // try {
-        //     throw NotFoundException::throwException();
-        // } catch (BaseException $e) {
-        //     dd($e->getErrorCode());
-        // }
-
     }
-
-    // private function __clone(){}
-
 
 
     public static function getInstance()
@@ -56,10 +39,20 @@ class App extends DDOS
     public function run()
     {
         try {
-            $something = Provider::boot();
-            $some = $something->call(WelcomeController::class, 'create');
-            dd($some);
-                    Route::route();
+
+            $container = Container::boot();
+
+            // register all services
+            new Provider($container);
+
+            // load routes AFTER provider
+            require BASE_PATH . '/../routes/web.php';
+
+            // dd("routing");
+
+            Route::route();
+
+
         } catch (BaseException $e) {
             // dd($e);
             // dd($e->);

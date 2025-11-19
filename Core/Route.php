@@ -2,19 +2,18 @@
 
 namespace Core;
 
+use Core\Container\Container;
 use Core\Routing\Router;
 
 class Route
 {
-
-    private static $instance;
-
-    public static function __callStatic($method, $arguments)
+    private static function router(): Router
     {
-        if (!self::$instance) {
-            self::$instance = new Router();
-        }
+        return Container::boot()->resolve(Router::class);
+    }
 
-        return self::$instance->$method(...$arguments);
+    public static function __callStatic($method, $args)
+    {
+        return self::router()->$method(...$args);
     }
 }

@@ -20,18 +20,14 @@ final class Dispatch
             if ($uri == $route->uri && $method == $route->method) {
                 // print_r($route['controller']);
                 // dd('route fond');
+                // dd([$route->middleware, $route->controller, $route->uri, $route->method]);
                 (new MiddlewareHandler($route->middleware))->handle();
 
                 // Middlewarehandler::handle($route->middleware);
                 return static::dispatchRoute($route->controller);
             }
         }
-        // return throw NotFoundException::ThrowException(
-        //     Response::NOT_FOUND,
-        //     "PAGE NOT FOUND"
-        // );
-
-        // dd(Exception(Exceptions::NOTFOUNDEXCEPTION->throw()));
+       
         return throw NotFoundException::throwException(
             "The Requested Page $url does not exist or wasn't found...",
             Response::NOT_FOUND
@@ -60,12 +56,14 @@ final class Dispatch
     {
 
         // echo view('home');
+       
         echo call_user_func($controller);
         return;
     }
 
     public static function dispatchController(array $controller)
     {
+        dd($controller);
         [$controller, $method] = $controller;
         if (!class_exists($controller)) {
 
@@ -83,7 +81,10 @@ final class Dispatch
 
         //no need of making rsolve class static 
         //refactor
-        $dependencies = Container::resolveMethod($controller, $method);
+        $container = Container::boot();
+        dd($controller);
+        $dependencies = $container->call($controller, $method);
+        dd($dependencies);
         return (new $controller())->$method(...$dependencies);
 
         // return  $instance->$method();

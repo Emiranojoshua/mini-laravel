@@ -6,12 +6,10 @@ use Closure;
 use Core\Exception\ContainerException\ClassNotFoundException;
 use Core\Exception\ContainerException\InvalidContainerParameterException;
 use Core\Exception\ContainerException\ReflectorInstantiableException;
-use Core\Exception\RouterException\NotFoundException;
 use Core\Response;
-use Exception;
 use ReflectionClass;
 use ReflectionMethod;
-use RuntimeException;
+
 
 class ContainerHandler
 {
@@ -27,6 +25,7 @@ class ContainerHandler
 
     public function singleton(string $abstract, string|Closure|null $concrete = null)
     {
+        // dd($concrete);
         $this->singletons[$abstract] = $concrete ?? $abstract;
     }
 
@@ -97,6 +96,7 @@ class ContainerHandler
             }
         }
 
+        // dd([$dependencies, "build debug"]);
         return $reflector->newInstanceArgs($dependencies);
     }
 
@@ -121,7 +121,7 @@ class ContainerHandler
             $type = $parameter->getType();
 
             if (\array_key_exists($paramName, $provided)) {
-                dd($paramName);
+                
                 $dependencies[] = $provided[$paramName];
                 continue;
             }
@@ -138,6 +138,7 @@ class ContainerHandler
 
             // 3) Class dependency
             if ($type && !$type->isBuiltin()) {
+                // dd("called fom class");
                 $dependencies[] = $this->resolve($type->getName());
                 continue;
             }
@@ -152,8 +153,11 @@ class ContainerHandler
                 "Method {$method} does not exist on " . get_class($object),
                 Response::BAD_REQUEST
             );
-        }
 
+            
+        }
+        dd("returned from call");
+        return $dependencies;
         return $reflector->invokeArgs($object, $dependencies);
     }
 }
