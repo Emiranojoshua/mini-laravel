@@ -21,7 +21,6 @@ class App extends DDOS
 
     private function __construct()
     {
-
         session_start();
     }
 
@@ -40,11 +39,7 @@ class App extends DDOS
     {
         try {
 
-            $container = Container::boot();
-
-            // register all services
-            new Provider($container);
-
+            Container::boot();
             // load routes AFTER provider
             require BASE_PATH . '/../routes/web.php';
             // dd(Route::getRoutes());

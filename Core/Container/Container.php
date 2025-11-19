@@ -15,7 +15,6 @@ class Container
 
             new Provider(self::$instance);
         }
-
         return self::$instance;
     }
 

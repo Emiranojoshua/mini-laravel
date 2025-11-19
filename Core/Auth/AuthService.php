@@ -19,8 +19,7 @@ final class AuthService implements AuthInterface
 
     public function __construct()
     {
-        $container = Container::boot();
-        $this->connection = $container->resolve(Connection::class);
+        $this->connection = Container::resolve(Connection::class);
     }
 
     public function login(array $credentials): ?UserEntity

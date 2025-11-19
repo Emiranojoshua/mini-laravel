@@ -22,10 +22,9 @@ abstract class Model
 
     public function __construct()
     {
-        $container = Container::boot();
 
 
-        $this->connection ?? $this->connection = $container->resolve(Connection::class);
+        $this->connection ?? $this->connection = Container::resolve(Connection::class);
 
         if (!$this->table) {
             $className = strtolower(new ReflectionClass($this)->getShortName());

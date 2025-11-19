@@ -9,7 +9,7 @@ class Route
 {
     private static function router(): Router
     {
-        return Container::boot()->resolve(Router::class);
+        return Container::resolve(Router::class);
     }
 
     public static function __callStatic($method, $args)

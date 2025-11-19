@@ -78,7 +78,6 @@ final class Dispatch
         }
 
 
-        $container = Container::boot();
-        $container->call($controller, $method);
+        Container::call($controller, $method);
     }
 }
