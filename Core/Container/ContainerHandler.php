@@ -7,7 +7,6 @@ use Core\Exception\ContainerException\ClassNotFoundException;
 use Core\Exception\ContainerException\InvalidContainerParameterException;
 use Core\Exception\ContainerException\ReflectorInstantiableException;
 use Core\Response;
-use HTTP\Controllers\HomeController;
 use ReflectionClass;
 use ReflectionMethod;
 
