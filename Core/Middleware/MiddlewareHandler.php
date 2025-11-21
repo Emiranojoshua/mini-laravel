@@ -12,7 +12,6 @@ final class MiddlewareHandler extends User
 
 
     public function __construct(
-        public Middleware $middleware,
     ) {}
 
     public function init()
@@ -25,10 +24,10 @@ final class MiddlewareHandler extends User
         return static::getUser();
     }
 
-    public function handle()
+    public function handle(Middleware $middleware)
     {
         // dd($this->User());
-        switch ($this->middleware) {
+        switch ($middleware) {
             case Middleware::GUEST:
                 # code...
                 // check if user is signed and return auth if....
@@ -40,7 +39,7 @@ final class MiddlewareHandler extends User
                 break;
 
             default:
-                $this->Default($this->middleware);
+                $this->Default($middleware);
                 // RequestErrorException::throwException("Invalid request", Response::BAD_REQUEST);
                 break;
         }
