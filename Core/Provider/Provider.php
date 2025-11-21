@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Container;
+namespace Core\Provider;
 
-use Core\App\App;
 use Core\Connection\Connection;
+use Core\Middleware\MiddlewareHandler;
 use Core\Routing\Router;
 
 class Provider extends ServiceProvider
@@ -11,10 +11,11 @@ class Provider extends ServiceProvider
     protected function register()
     {
         //register services here
-        $this->container->singleton(Connection::class, Connection::class);
-        $this->container->singleton(
+        $this->singleton(Connection::class, Connection::class);
+        $this->singleton(
             Router::class,
             Router::class
         );
+        $this->bind(MiddlewareHandler::class, MiddlewareHandler::class);
     }
 }

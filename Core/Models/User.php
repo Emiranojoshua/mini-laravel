@@ -9,7 +9,7 @@ class User extends Model
 {
     protected array $fillable = ['email', 'password'];
 
-    public function getUser(){
+    public static function getUser(){
         // return (new AuthService())->user();
         //to be fixed and add security here
         return session_get('user');

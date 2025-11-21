@@ -2,6 +2,7 @@
 
 namespace Core\Routing;
 
+use Core\Connection\Connection;
 use Core\Container\Container;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
@@ -18,12 +19,9 @@ final class Dispatch
         $url =  $request['requestData']['HTTP_HOST'] . $uri;
         foreach ($routes as $route) {
             if ($uri == $route->uri && $method == $route->method) {
-                // print_r($route['controller']);
-                // dd('route fond');
-                // dd([$route->middleware, $route->controller, $route->uri, $route->method]);
-                (new MiddlewareHandler($route->middleware))->handle();
 
-                // Middlewarehandler::handle($route->middleware);
+                Container::resolve(MiddlewareHandler::class);
+  
                 return static::dispatchRoute($route->controller);
             }
         }

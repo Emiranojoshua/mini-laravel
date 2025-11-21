@@ -2,6 +2,8 @@
 
 namespace Core\Container;
 
+use Core\Provider\Provider;
+
 class Container
 {
     private static ?ContainerHandler $instance = null;

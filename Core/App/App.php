@@ -54,6 +54,7 @@ class App extends DDOS
         } catch (BaseException $e) {
             // dd($e);
             // dd($e->);
+            // dd($e);
             $errorCode = $e->getErrorCode()  ?: Response::INTERNAL_SERVER_ERROR->getvalue();
             $errorMessage = $e->getErrorMessage() ?: "An error occured/internal server error";
             $errorName = $e->getErrorName() ?: "Internal Server Error";

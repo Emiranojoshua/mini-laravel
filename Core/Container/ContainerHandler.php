@@ -6,6 +6,7 @@ use Closure;
 use Core\Exception\ContainerException\ClassNotFoundException;
 use Core\Exception\ContainerException\InvalidContainerParameterException;
 use Core\Exception\ContainerException\ReflectorInstantiableException;
+use Core\Middleware\MiddlewareHandler;
 use Core\Response;
 use ReflectionClass;
 use ReflectionMethod;
@@ -66,7 +67,8 @@ class ContainerHandler
 
         $reflector = new ReflectionClass($concrete);
 
-        if (!$reflector->isInstantiable()) {
+        $isInstantiable = $reflector->isInstantiable();
+        if (!$isInstantiable) {
             throw ReflectorInstantiableException::throwException(
                 "reflector class $concrete is not isInstantiable",
                 Response::BAD_REQUEST
