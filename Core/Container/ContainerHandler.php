@@ -6,7 +6,6 @@ use Closure;
 use Core\Exception\ContainerException\ClassNotFoundException;
 use Core\Exception\ContainerException\InvalidContainerParameterException;
 use Core\Exception\ContainerException\ReflectorInstantiableException;
-use Core\Middleware\MiddlewareHandler;
 use Core\Response;
 use ReflectionClass;
 use ReflectionFunction;

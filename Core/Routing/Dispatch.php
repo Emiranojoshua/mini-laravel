@@ -20,7 +20,6 @@ final class Dispatch
         $url =  $request['requestData']['HTTP_HOST'] . $uri;
         foreach ($routes as $route) {
             if ($uri == $route->uri && $method == $route->method) {
-
                 Container::resolve(MiddlewareHandler::class)->handle($route->middleware);
   
                 return static::dispatchRoute($route->controller);

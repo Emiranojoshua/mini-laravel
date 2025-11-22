@@ -172,7 +172,7 @@
 
         .stack-trace {
             border-radius: 8px;
-            max-height: 300px;
+            /* max-height: 300px; */
             overflow-y: auto;
             transition: all 0.3s ease;
             background: #0d1117;
@@ -426,54 +426,29 @@
                 </div>
 
                 <div class="file-info">
-                    <div class="file-path">File: /var/www/html/app/Http/Controllers/UserController.php</div>
-                    <div class="line-number">Line: 42</div>
+                    <div class="file-path">File: <?= $errorFile ?></div>
+                    <div class="line-number">Line: <?= $errorLine ?></div>
                 </div>
 
-                <div class="stack-trace">
-                    <div class="stack-item">
-                        <div class="stack-file">UserController.php:42</div>
-                        <div class="stack-method">App\Http\Controllers\UserController->show()</div>
-                    </div>
-                    <div class="stack-item">
-                        <div class="stack-file">Controller.php:54</div>
-                        <div class="stack-method">Illuminate\Routing\Controller->callAction()</div>
-                    </div>
-                    <div class="stack-item">
-                        <div class="stack-file">ControllerDispatcher.php:45</div>
-                        <div class="stack-method">Illuminate\Routing\ControllerDispatcher->dispatch()</div>
-                    </div>
-                    <div class="stack-item">
-                        <div class="stack-file">Route.php:261</div>
-                        <div class="stack-method">Illuminate\Routing\Route->runController()</div>
-                    </div>
-                    <div class="stack-item">
-                        <div class="stack-file">Route.php:204</div>
-                        <div class="stack-method">Illuminate\Routing\Route->run()</div>
-                    </div>
-                </div>
+                <?= renderStackTrace($errorTrace) ?>
             </div>
 
             <div class="sidebar">
                 <div class="info-card">
                     <div class="info-title">
-                        📋 Request Info
+                        Request Info
                     </div>
                     <div class="info-item">
                         <span class="info-label">Method:</span>
-                        <span class="info-value">GET</span>
+                        <span class="info-value"><?= $method ?> </span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">URL:</span>
-                        <span class="info-value">/users/123</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Route:</span>
-                        <span class="info-value">users.show</span>
+                        <span class="info-value"><?= $uri ?></span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Time:</span>
-                        <span class="info-value">14:30:25</span>
+                        <span class="info-value"><?= $time ?></span>
                     </div>
                 </div>
             </div>

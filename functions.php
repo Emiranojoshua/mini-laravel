@@ -75,10 +75,10 @@ function view(string $path, array $params = [], Response $response_code = Respon
     return;
 }
 
-function renderError(array $params, Response $response_code = Response::NOT_FOUND)
+function renderError(array $params)
 {
     // dd($params);
-    return view('errors/error', $params, $response_code);
+    return view('errors/error', $params);
 }
 
 function session_flash(array $data)
@@ -165,6 +165,33 @@ function test(){
         "Test Exception from functions.php",
         Response::BAD_REQUEST
     );
+}
+
+
+function renderStackTrace(array $trace): string
+{
+    $html = '<div class="stack-trace">';
+
+    foreach ($trace as $frame) {
+        $file = $frame['file'] ?? 'unknown file';
+        $line = $frame['line'] ?? 0;
+
+        $class = $frame['class'] ?? '';
+        $type  = $frame['type'] ?? '';
+        $func  = $frame['function'] ?? '';
+
+        $method = $class . $type . $func . '()';
+
+        $html .= "
+            <div class=\"stack-item\">
+                <div class=\"stack-file\">" . htmlspecialchars(basename($file)) . ":$line</div>
+                <div class=\"stack-method\">" . htmlspecialchars($method) . "</div>
+            </div>
+        ";
+    }
+
+    $html .= "</div>";
+    return $html;
 }
 
 

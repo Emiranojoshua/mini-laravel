@@ -44,51 +44,45 @@ class App extends DDOS
             Route::route();
         } catch (BaseException $e) {
 
-            $exceptionDetails = Container::resolve(ExceptionDetails::class);    
-
-
-            // dd($e->getTrace());
-            // $errorCode = $e->getErrorCode() ?: Response::INTERNAL_SERVER_ERROR->getValue();
-            // $errorMessage = $e->getErrorMessage() ?: "An error occurred/internal server error";
-            // $errorName = $e->getErrorName() ?: "Internal Server Error";
-            // $error = $e->getError();
-
-            // dd([
-            //     // 'errorCode'    => $errorCode,
-            //     // 'errorMessage' => $errorMessage,
-            //     // 'errorName'    => $errorName,
-            //     // 'errorFile'    => $e->getFile(),
-            //     // 'errorLine'    => $e->getLine(),
-            //     'errorTrace'   => $e->getTrace(),           // array trace
-            //     // 'traceString'  => $e->getTraceAsString(),   // formatted string
-            //     // 'requestData'  => Request::getRequest(),
-            //     // 'requestMethod'=> Request::getRequestMethod(),
-            // ]);
-
-            // return renderError(
-            //     params: [
-            //         'errorCode'    => $errorCode,
-            //         'errorMessage' => $errorMessage,
-            //         'errorName'    => $errorName,
-            //         'errorFile'    => $e->getFile(),
-            //         'errorLine'    => $e->getLine(),
-            //         'errorTrace'   => $e->getTrace(),           // array trace
-            //         'traceString'  => $e->getTraceAsString(),   // formatted string
-            //         'requestData'  => Request::getRequest(),
-            //     ],
-            //     response_code: $error,
-            // );
+            try {
+                $details = new ExceptionDetails($e);
+                return renderError(
+                    params: [
+                        'errorCode'    => $details->getErrorCode(),
+                        'errorMessage' => $details->getErrorMessage(),
+                        'errorName'    => $details->getErrorName(),
+                        'errorFile'    => $details->getOriginFile(),
+                        'errorLine'    => $details->getOriginLine(),
+                        'errorTrace'   => $details->getTrace(),           // array trace
+                        'traceString'  => $details->getTraceString(),   // formatted string
+                        'requestData'  => Request::getRequest(),
+                        'method'      => Request::getRequestMethod(),
+                        'uri'      => Request::getRequestUri(),
+                        'time' => date('Y-m-d H:i:s'),
+                    ],
+                );
+            } catch (BaseException $e) {
+                return renderError(
+                    params: [
+                        'errorCode'    => $details->getErrorCode(),
+                        'errorMessage' => $details->getErrorMessage(),
+                        'errorName'    => $details->getErrorName(),
+                        'errorFile'    => $details->getOriginFile(),
+                        'errorLine'    => $details->getOriginLine(),
+                        'errorTrace'   => $details->getTrace(),           // array trace
+                        'traceString'  => $details->getTraceString(),   // formatted string
+                        'requestData'  => Request::getRequest(),
+                        'method'      => Request::getRequestMethod(),
+                        'uri'      => Request::getRequestUri(),
+                        'time' => date('Y-m-d H:i:s'),
+                    ],
+                );
+            }
         }
     }
 
     public function __destruct()
     {
-        // var_dump($_SESSION);
-        echo "deconstructor called from app";
-        dc($_SESSION);
         session_unflash();
-        // dc($_SESSION);
-
-        // Session::destroy();
     }
 }
