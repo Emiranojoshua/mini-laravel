@@ -45,7 +45,6 @@ class App extends DDOS
         } catch (BaseException $e) {
 
             $exceptionDetails = Container::resolve(ExceptionDetails::class);    
-            dd();
 
 
             // dd($e->getTrace());

@@ -31,7 +31,7 @@ class ContainerHandler
         $this->singletons[$abstract] = $concrete ?? $abstract;
     }
 
-    public function resolve($abstract)
+    public function resolve($abstract, array $provided = [])
     {
         // Check if the instance already exists for singletons
         if (\array_key_exists($abstract, $this->instances)) {
@@ -43,7 +43,7 @@ class ContainerHandler
         // Determine the concrete implementation
         $concrete = $this->bindings[$abstract] ?? ($this->singletons[$abstract] ?? $abstract);
 
-        $object = $this->build($concrete);
+        $object = $this->build($concrete, $provided);
 
         // IF it is a singleton, store it
         if (\array_key_exists($abstract, $this->singletons)) {
@@ -55,8 +55,6 @@ class ContainerHandler
 
     private function build($concrete, $provided = [])
     {
-        $provided = ["name" => "someting", "sdadf0" => "value"];
-        extract($provided);
         if ($concrete instanceof Closure) {
             $reflection = new ReflectionFunction($concrete);
             $parameters = $reflection->getParameters();

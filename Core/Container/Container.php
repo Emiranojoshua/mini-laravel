@@ -20,9 +20,9 @@ class Container
         return self::$instance;
     }
 
-    public static function resolve(string $class)
+    public static function resolve(string $class, $provided = [])
     {
-        return self::$instance->resolve($class);
+        return self::$instance->resolve($class, $provided);
     }
 
     public static function call(object|string $objectOrClass, string $method, array $provided = []){
