@@ -28,8 +28,6 @@ final class HomeController
 
     $user = $userModel->create($attr);
 
-    // dc($userModel->getResponse("errors"));
-
     if ($user == null) {
       session_flash($userModel->getResponse("errors"));
       session_old($userModel->getResponse("formData"));
@@ -44,7 +42,7 @@ final class HomeController
 
     return view("welcome");
 
-    // return redirect();
+
   }
   public function store() {}
   public function show() {}

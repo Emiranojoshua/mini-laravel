@@ -2,18 +2,11 @@
 
 namespace Core\App;
 
-use Core\Connection\Connection;
-use Core\Container\Container;
-use Core\Container\Provider;
 use Core\Exception\Foundation\BaseException;
 use Core\Exception\Foundation\ExceptionDetails;
-use Core\Models\User;
 use Core\Request\Request;
-use Core\Response;
 use Core\Route;
-use Core\Routing\Router;
 use Core\Services\DDOS;
-use HTTP\Controllers\WelcomeController;
 
 class App extends DDOS
 {
@@ -40,7 +33,6 @@ class App extends DDOS
     {
         try {
             require BASE_PATH . '/../routes/web.php';
-            // test();
             Route::route();
         } catch (BaseException $e) {
 

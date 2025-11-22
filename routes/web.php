@@ -38,14 +38,6 @@ Route::post(
     [HomeController::class, 'create']
 )->middleware(Middleware::GUEST);
 
-
-
-//creting a welcome controller to disiplay a single page
-// //just returning the view 
-// Route::get('/welcome', function(){
-//    return view("welcome");
-// })->Middleware(Middleware::GUEST);
-
 Route::get(
     '/welcome',
     [HomeController::class, 'create']

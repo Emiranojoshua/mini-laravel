@@ -22,7 +22,6 @@ class Request extends Validator
     public function all()
     {
         return $this->data = $_POST;
-        // return $this;
     }
 
 
@@ -33,30 +32,9 @@ class Request extends Validator
     }
 
 
-    // public function validate(array $rules): array
-    // {
-    //     $validator =  new Validator($rules, $this->all());
-
-    //     if (!$validator->passes()) {
-    //         session_flash($validator->getErrors());
-    //         session_old($this->all());
-
-    //         redirect()->back()->setStatus(Response::REDIRECT)->send();
-    //         exit;
-    //         // $request = Request::getRequest();
-
-    //         // back();
-    //     };
-
-    //     return $this->all();
-    // }
-
     public function only(array $keys)
     {
         $filtered = [];
-        // dd($this->data)
-
-
 
         foreach ($keys as $key) {
             if (array_key_exists($key, $this->data)) {

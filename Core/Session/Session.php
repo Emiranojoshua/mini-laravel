@@ -2,8 +2,6 @@
 
 namespace Core\Session;
 
-use Core\Exception\ArgumentException\InvalidArgumentException;
-use Core\Response;
 
 class Session
 {
@@ -44,7 +42,6 @@ class Session
         $_SESSION['_flash'] = [];
         $_SESSION['_old'] = [];
         unset($_SESSION['_flash'], $_SESSION['_old']);
-        // $_SESSION = [];
         return;
     }
 

@@ -15,8 +15,6 @@ class RouteFacade
             self::$instance = new Router();
         }
 
-        // dc([$method, $arguments]);
-
         return self::$instance->$method(...$arguments);
     }
 }

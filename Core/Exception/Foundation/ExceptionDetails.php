@@ -19,7 +19,6 @@ final class ExceptionDetails
     {
         $this->exception = $e;
 
-        // store full trace
         $this->trace = $e->getTrace();
         $this->traceString = $e->getTraceAsString();
 

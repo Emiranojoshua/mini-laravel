@@ -2,7 +2,6 @@
 
 namespace HTTP\Controllers;
 
-use Core\Request\Request;
 
 abstract class Controller
 {

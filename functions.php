@@ -48,12 +48,6 @@ function base_path(string $path)
     return require BASE_PATH . $path;
 }
 
-// must the response code be defined in the response file or can just be retured as int 
-//it all comes down to design 
-//two options to go with 
-//create new git branch to make response_code both int and response
-//option two is include the response as response
-//option three is to make it buth resonse and int 
 
 function view(string $path, array $params = [], Response $response_code = Response::OK)
 {
@@ -68,8 +62,6 @@ function view(string $path, array $params = [], Response $response_code = Respon
         Response::NOT_FOUND,
     );
 
-    // ob_start();
-    // http_response_code($response->value);
     status_code($response_code);
     require $viewFile;
     return;
@@ -77,15 +69,13 @@ function view(string $path, array $params = [], Response $response_code = Respon
 
 function renderError(array $params)
 {
-    // dd($params);
     return view('errors/error', $params);
 }
 
 function session_flash(array $data)
 {
     Session::flash($data);
-    //JUST INCASE RETURN CAUSES HARM TO CODEBASE
-    // return;
+
 }
 
 function session_old(array $value): void
@@ -115,7 +105,7 @@ function errors($key,  bool $handle = false)
 
     foreach ($error as $value) {
         echo $value . "..  ";
-    }    // return getSession($key) ?? '';
+    }    
 }
 
 function old($key, $default = '')
@@ -139,15 +129,6 @@ function flashAll()
 {
     return Session::flashAll();
 }
-
-// function env(string $key): string
-// {
-
-//     return Config::database()['database']['mysql'][$key] ?? throw NotFoundException::throwException(
-//         "Config key:$key not found",
-//         Response::NOT_FOUND
-//     );
-// }
 
 function status_code(Response $response_code)
 {

@@ -36,13 +36,6 @@ abstract class Model
     public function create(array $data): ?array
     {
         $existingUser = $this->findBy('email', [$data['email'] ?? '']);
-        // dd("testing");
-        // if($existingUser){
-        //     dc($existingUser);
-        //     dd("user exist");
-        // }
-        // dc($existingUser);
-        // dd("user does not exist");
 
         if ($existingUser) {
             return $this->sendResponse(
@@ -103,7 +96,6 @@ abstract class Model
     {
         $placeholder = ":$field";
         $value = [$field => $value[0]];
-        // dd($value);
         $sql = "SELECT * FROM {$this->table} WHERE {$field} = {$placeholder} LIMIT 1";
         $stmt = $this->connection->query($sql, $value);
         return $stmt->fetch();

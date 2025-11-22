@@ -2,11 +2,9 @@
 
 namespace Core\Routing;
 
-use Core\Connection\Connection;
 use Core\Container\Container;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
-use Core\Middleware;
 use Core\Middleware\MiddlewareHandler;
 use Core\Response;
 
@@ -42,7 +40,6 @@ final class Dispatch
 
             return self::dispatchmethod($controller);
         }
-        // dd('this was reached');
         return throw RouterRuntimeException::throwException(
             "INVALID CONTROLLER PARAMETER SET",
             Response::BAD_REQUEST
@@ -51,9 +48,6 @@ final class Dispatch
 
     public static function dispatchMethod(callable $controller)
     {
-
-        // echo view('home');
-
         echo call_user_func($controller);
         return;
     }

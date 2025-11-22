@@ -17,9 +17,7 @@ class RequestHandler
     public function all()
     {
         return $this->data = $_POST;
-        // return $this;
     }
-
 
 
     public function except(array $key = [])

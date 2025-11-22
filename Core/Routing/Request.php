@@ -3,12 +3,10 @@
 namespace Core\Routing;
 
 use Core\Middleware;
-//duplicate function call change
 
 abstract class Request
 {
     private array  $routes = [];
-    // private array $request;
 
     private function add($route, $controller, $method)
     {
@@ -19,8 +17,7 @@ abstract class Request
     public function get(string $route, callable | array $controller)
     {
         return $this->add(route: $route, controller: $controller, method: 'get');
-        // return $this;
-        // dd($this);
+
     }
     public function post(string $route, callable | array $controller)
     {
@@ -37,7 +34,6 @@ abstract class Request
 
     public function getRoutes(): array
     {
-        // dd($this->routes);
         return $this->routes;
     }
 

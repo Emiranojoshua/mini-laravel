@@ -26,7 +26,6 @@ final class MiddlewareHandler extends User
 
     public function handle(Middleware $middleware)
     {
-        // dd($this->User());
         switch ($middleware) {
             case Middleware::GUEST:
                 # code...

@@ -37,8 +37,6 @@ class ContainerHandler
             return $this->instances[$abstract];
         }
 
-
-
         // Determine the concrete implementation
         $concrete = $this->bindings[$abstract] ?? ($this->singletons[$abstract] ?? $abstract);
 
