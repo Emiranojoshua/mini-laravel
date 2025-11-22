@@ -6,6 +6,7 @@ use Core\Connection\Connection;
 use Core\Container\Container;
 use Core\Exception\RouterException\NotFoundException;
 use Core\Exception\RouterException\RouterRuntimeException;
+use Core\Middleware;
 use Core\Middleware\MiddlewareHandler;
 use Core\Response;
 
@@ -19,6 +20,7 @@ final class Dispatch
         $url =  $request['requestData']['HTTP_HOST'] . $uri;
         foreach ($routes as $route) {
             if ($uri == $route->uri && $method == $route->method) {
+                 Container::resolve(Middleware::class);
 
                 Container::resolve(MiddlewareHandler::class)->handle($route->middleware);
   

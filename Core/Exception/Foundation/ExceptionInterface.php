@@ -2,7 +2,6 @@
 
 namespace Core\Exception\Foundation;
 
-use Core\Response;
 
 interface ExceptionInterface
 {

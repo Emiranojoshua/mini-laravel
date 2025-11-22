@@ -13,8 +13,9 @@ abstract class BaseException extends Exception implements ExceptionInterface
     private int $errorCode;
     private string $errorMessage;
     private Response $error;
+    
 
-    private function __construct(
+    final private function __construct(
         ?Response $errorCode = null,
         ?string $message = null,
         int $code = 0,
@@ -69,7 +70,7 @@ abstract class BaseException extends Exception implements ExceptionInterface
         int $code = 0,
         ?Throwable $previous = null
     ) {
-        return new static(
+        throw new static(
             $errorCode,
             $errorMessage,
             $code,

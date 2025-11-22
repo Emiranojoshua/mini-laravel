@@ -9,6 +9,7 @@ use Core\Exception\ContainerException\ReflectorInstantiableException;
 use Core\Middleware\MiddlewareHandler;
 use Core\Response;
 use ReflectionClass;
+use ReflectionFunction;
 use ReflectionMethod;
 
 
@@ -52,10 +53,39 @@ class ContainerHandler
         return $object;
     }
 
-    private function build($concrete)
+    private function build($concrete, $provided = [])
     {
+        $provided = ["name" => "someting", "sdadf0" => "value"];
+        extract($provided);
         if ($concrete instanceof Closure) {
-            return $concrete();
+            $reflection = new ReflectionFunction($concrete);
+            $parameters = $reflection->getParameters();
+            $dependencies = [];
+
+            foreach ($parameters as $param) {
+                $name = $param->getName();
+                $type = $param->getType();
+
+                // Provided manually?
+                if (array_key_exists($name, $provided)) {
+                    $dependencies[] = $provided[$name];
+                }
+                // Class type? Auto resolve
+                elseif ($type && !$type->isBuiltin()) {
+                    $dependencies[] = $this->resolve($type->getName());
+                }
+                // Default?
+                elseif ($param->isDefaultValueAvailable()) {
+                    $dependencies[] = $param->getDefaultValue();
+                } else {
+                    throw InvalidContainerParameterException::throwException(
+                        "Cannot resolve parameter $name for closure.",
+                        Response::BAD_REQUEST
+                    );
+                }
+            }
+
+            return $concrete(...$dependencies);
         }
 
         if (!class_exists($concrete)) {

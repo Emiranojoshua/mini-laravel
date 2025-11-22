@@ -1,8 +1,7 @@
 <?php
 
-use Config\Config;
+use Core\Exception\ContainerException\ClassNotFoundException;
 use Core\Exception\RouterException\NotFoundException;
-use Core\Request\Request as RequestRequest;
 use Core\Response;
 use Core\Response\RedirectResponse;
 use Core\Session\Session;
@@ -159,6 +158,13 @@ function status_code(Response $response_code)
 function redirect(string $url = '/', Response $statusCode = Response::OK)
 {
     return RedirectResponse::make($url, $statusCode);
+}
+
+function test(){
+    ClassNotFoundException::throwException(
+        "Test Exception from functions.php",
+        Response::BAD_REQUEST
+    );
 }
 
 
