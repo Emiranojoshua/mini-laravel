@@ -1,66 +1,83 @@
 # Mini Laravel
 
-![PHP](https://img.shields.io/badge/PHP-8.4-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![Composer](https://img.shields.io/badge/Composer-Required-lightgrey)
+Mini Laravel is a lightweight PHP framework for building web applications quickly and efficiently. It uses modern PHP features, Composer-based autoloading, and includes .env environment configuration through vlucas/phpdotenv.
 
-Mini Laravel is a lightweight PHP framework for building web applications quickly and efficiently. It leverages modern PHP features and uses Composer for dependency management.
+------------------------------------------------------------
+Requirements
+------------------------------------------------------------
 
----
+- PHP >= 8.4
+- Composer
+- MySQL
+- Apache or any compatible web server
+- PHP built-in development server (optional)
 
-## Requirements
+------------------------------------------------------------
+Installation
+------------------------------------------------------------
 
-* PHP >= 8.4
-* Composer
-* MySQL
-* Apache or any compatible web server
-* PHP built-in development server (optional)
+1. Clone or download the repository:
 
----
-
-## Installation
-
-1. **Clone or download** the Mini Laravel repository:
-
-```bash
 git clone https://github.com/Emiranojoshua/mini-laravel.git
 cd mini-laravel
-```
 
-2. **Install Composer dependencies**:
+2. Install Composer dependencies:
 
-```bash
 composer install
-```
 
-3. **Set up your web server**:
+------------------------------------------------------------
+Environment Setup (.env)
+------------------------------------------------------------
 
-* **PHP built-in server**:
+Mini Laravel uses vlucas/phpdotenv for environment configuration.
 
-```bash
-php -S localhost:8000 -t public
-```
+1. Install Dotenv if not already installed:
 
-* **Apache**: point the document root to the `public` folder.
+composer require vlucas/phpdotenv
 
----
+2. Create your .env file:
 
-## Database Configuration
+cp .env.example .env
 
-Mini Laravel uses the **`Config\Config.php`** file to manage database connections.
+3. Update your .env file with your application and database settings:
 
-> ⚠️ The `.env` file feature is not yet implemented, so database settings are configured directly in the `Config` class.
+APP_NAME=MiniLaravel
+APP_ENV=development
+APP_URL=http://localhost:8000
 
-### Steps to Set Up the Database
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=emirano
+DB_USERNAME=root
+DB_PASSWORD=
 
-1. **Create the database in MySQL**:
+4. The framework loads environment variables using:
 
-```sql
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(base_path());
+$dotenv->load();
+
+Values can be accessed via:
+
+$_ENV['DB_HOST']
+getenv('DB_HOST')
+
+------------------------------------------------------------
+Database Configuration
+------------------------------------------------------------
+
+The framework now reads database credentials from your .env file.
+
+Steps:
+
+1. Create the database:
+
 CREATE DATABASE emirano;
-```
 
-2. **Create the `users` table**:
+2. Create the users table:
 
-```sql
-CREATE TABLE `emirano`.`users` (
+CREATE TABLE `users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(500) NOT NULL,
   `password` VARCHAR(500) NOT NULL,
@@ -68,29 +85,27 @@ CREATE TABLE `emirano`.`users` (
   `updated_at` VARCHAR(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
-```
 
-3. **Adjust database credentials in `Config\Config.php`**:
+3. Update your .env file with the correct credentials.
 
-* Update `port`, `username`, and `password` to match your MySQL setup.
+------------------------------------------------------------
+Running the Framework
+------------------------------------------------------------
 
----
+Start the development server:
 
-## Running the Framework
+php -S localhost:8000 -t public
 
-Once installed and configured:
+Open in your browser:
 
-```bash
-php -S localhost:<your_port_number> -t public
-```
+http://localhost:8000
 
-Visit [http://localhost:8000](http://localhost:<your_port_number>) in your browser to see your application.
+------------------------------------------------------------
+Notes
+------------------------------------------------------------
 
----
-
-## Notes
-
-* Composer is required for dependency management.
-* PHP 8.4 or higher is required.
-* `.env` support and folder structure documentation will be added in future updates.
-* Database setup uses the `Config\Config.php` file and the provided `users` table schema.
+- .env support is fully implemented through vlucas/phpdotenv.
+- Ensure that your .env file is not committed to Git.
+- PHP 8.4 or higher is required.
+- Composer is required for autoloading and environment variable loading.
+- Additional documentation for folder structure will be added in future updates.
